@@ -142,4 +142,17 @@
             manifestOutput.innerHTML = '';
             let i = 0;
             function type() {
-
+                if (i < text.length) {
+                    manifestOutput.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 20);
+                } else {
+                    statusAnchor.innerText = "تمت معالجة الاستعلام السيادي بنجاح_";
+                    statusAnchor.style.color = "#fff";
+                }
+            }
+            type();
+        }
+    </script>
+</body>
+</html>
