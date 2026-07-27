@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAKMOS | Protocol v127</title>
+    <title>HAKMOS | Sovereign Protocol v128</title>
     
-    <!-- استدعاء الخطوط العصرية المتغيرة لعام 2026 -->
+    <!-- استدعاء أحدث محركات الخطوط العالمية المتغيرة لعام 2026 -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Cairo:wght@200;400;700&family=Plus+Jakarta+Sans:ital,wght@0,200;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Cairo:wght@200;300;400;700&family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-pure: #050505;
+            --bg-void: #030303;
             --accent-gold: #D4AF37;
             --text-high: #F5F5F7;
-            --text-muted: #6E6E73;
-            --console-glow: rgba(212, 175, 55, 0.06);
+            --text-muted: #86868B;
+            --text-dark: #424245;
+            --glow-matrix: rgba(212, 175, 55, 0.05);
             --font-ar: 'Cairo', sans-serif;
             --font-en: 'Plus Jakarta Sans', sans-serif;
         }
@@ -29,7 +30,7 @@
         }
 
         body {
-            background-color: var(--bg-pure);
+            background-color: var(--bg-void);
             color: var(--text-high);
             height: 100vh;
             display: flex;
@@ -39,13 +40,13 @@
             position: relative;
         }
 
-        /* مصفوفة التوهج الخلفي الكوني */
+        /* درع التوهج الكوني المحيط بالكونسول */
         body::before {
             content: '';
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--console-glow) 0%, rgba(0,0,0,0) 70%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--glow-matrix) 0%, rgba(0,0,0,0) 75%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -57,113 +58,169 @@
             position: relative;
             z-index: 2;
             width: 100%;
-            max-width: 680px;
-            padding: 40px;
+            max-width: 800px;
+            padding: 20px;
             text-align: center;
         }
 
-        /* الشعار الأحادي الضخم والفخم */
-        .brand-core {
+        /* شعار مونوكورب الرأسي الصلب الفخم */
+        .brand-monolith {
             font-family: var(--font-en);
             font-weight: 200;
-            font-size: 4.8rem;
-            letter-spacing: 24px;
+            font-size: 5rem;
+            letter-spacing: 28px;
             color: var(--text-high);
-            text-indent: 24px; /* لضبط المحاذاة في المنتصف تماماً */
+            text-indent: 28px; /* لموازنة الفراغ الحرفي الزائد في السنتر */
             text-transform: uppercase;
-            margin-bottom: 24px;
-            animation: deepPulse 4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+            margin-bottom: 32px;
+            animation: etherealPulse 5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
         }
 
-        /* مصفوفة الدستور الحرفي الموزع عريضاً */
-        .sovereign-matrix {
+        /* شبكة المحاذاة العمودية المزدوجة باللغتين */
+        .bilingual-grid {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 14px;
             margin-bottom: 56px;
+            width: 100%;
         }
 
-        .matrix-node {
+        .matrix-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 480px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .matrix-row:hover {
+            border-bottom: 1px solid rgba(214, 175, 55, 0.15);
+        }
+
+        /* الحرف الذهبي السيادي في المنتصف */
+        .key-token {
+            font-family: var(--font-en);
+            font-weight: 700;
+            color: var(--accent-gold);
+            font-size: 1.3rem;
+            width: 40px;
+            text-align: center;
+            letter-spacing: 0;
+            text-shadow: 0 0 12px rgba(214, 175, 55, 0.3);
+        }
+
+        /* الجناح العربي الحركي الناعم */
+        .wing-ar {
             font-family: var(--font-ar);
             font-weight: 200;
             font-size: 1.15rem;
             color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            transition: color 0.4s ease;
+            text-align: right;
+            width: 40%;
+            transition: color 0.3s;
         }
 
-        .matrix-node span {
+        /* الجناح الإنجليزي الهندسي النحيف */
+        .wing-en {
             font-family: var(--font-en);
-            font-weight: 700;
-            color: var(--accent-gold);
-            margin-left: 6px;
-            font-size: 1.1rem;
+            font-weight: 300;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            text-align: left;
+            width: 40%;
+            text-transform: capitalize;
+            transition: color 0.3s;
         }
 
-        .matrix-node:hover {
-            color: var(--text-high);
-        }
+        .matrix-row:hover .wing-ar { color: var(--text-high); font-weight: 300; }
+        .matrix-row:hover .wing-en { color: var(--text-high); }
 
-        /* كونسول التنبيه والمؤشر النابض للبوابة */
+        /* تريجر التنويم الإيحائي المستتر */
         .console-trigger {
             font-family: var(--font-ar);
-            font-weight: 400;
-            font-size: 1rem;
+            font-weight: 300;
+            font-size: 1.05rem;
             color: var(--text-muted);
-            letter-spacing: 2px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            padding-top: 32px;
+            letter-spacing: 3px;
+            padding-top: 40px;
             display: inline-block;
-            width: 85%;
+            width: 75%;
+            position: relative;
         }
 
         .console-trigger::after {
             content: '_';
             color: var(--accent-gold);
-            animation: terminalBlink 1s step-end infinite;
+            animation: cursorBlink 1.2s step-end infinite;
             margin-right: 4px;
         }
 
-        /* حركة النبض العميقة فائقة النعومة */
-        @keyframes deepPulse {
-            0% { opacity: 0.3; filter: blur(1.5px); transform: scale(0.98); }
+        /* الحركات السينمائية الانسيابية الفاخرة */
+        @keyframes etherealPulse {
+            0% { opacity: 0.25; filter: blur(2px); transform: scale(0.97); }
             50% { opacity: 1; filter: blur(0px); transform: scale(1); }
-            100% { opacity: 0.3; filter: blur(1.5px); transform: scale(0.98); }
+            100% { opacity: 0.25; filter: blur(2px); transform: scale(0.97); }
         }
 
-        @keyframes terminalBlink {
+        @keyframes cursorBlink {
             from, to { opacity: 0; }
             50% { opacity: 1; }
         }
 
-        /* توافق الشاشات المتجاوب للهواتف */
+        /* تجاوب عتاد هاتف سامسونج المخصص وعرض الشاشات */
         @media (max-width: 768px) {
-            .brand-core { font-size: 3.2rem; letter-spacing: 16px; text-indent: 16px; }
-            .sovereign-matrix { gap: 12px; }
-            .matrix-node { font-size: 1rem; }
+            .brand-monolith { font-size: 3.4rem; letter-spacing: 18px; text-indent: 18px; }
+            .matrix-row { max-width: 90%; }
+            .wing-ar { font-size: 1.05rem; }
+            .wing-en { font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="cinematic-shell">
-        <!-- الشعار الرئيسي النخبوي -->
-        <div class="brand-core">Hakmos</div>
+        <!-- الاسم الإمبراطوري النابض -->
+        <div class="brand-monolith">Hakmos</div>
         
-        <!-- التفكيك الحرفي دقيق المحاذاة والوزن الخطّي -->
-        <div class="sovereign-matrix">
-            <div class="matrix-node"><span>H</span>حكمة</div>
-            <div class="matrix-node"><span>A</span>أمان</div>
-            <div class="matrix-node"><span>K</span>كفاءة</div>
-            <div class="matrix-node"><span>M</span>مال</div>
-            <div class="matrix-node"><span>O</span>وقار</div>
-            <div class="matrix-node"><span>S</span>سيادة</div>
+        <!-- مصفوفة الأبعاد المزدوجة بالخطوط العصرية الفاخرة والترجمة المتوازنة -->
+        <div class="bilingual-grid">
+            <div class="matrix-row">
+                <div class="wing-ar">حكمة</div>
+                <div class="key-token">H</div>
+                <div class="wing-en">Holistic</div>
+            </div>
+            <div class="matrix-row">
+                <div class="wing-ar">أمان</div>
+                <div class="key-token">A</div>
+                <div class="wing-en">Aligned</div>
+            </div>
+            <div class="matrix-row">
+                <div class="wing-ar">كفاءة</div>
+                <div class="key-token">K</div>
+                <div class="wing-en">Kinetic</div>
+            </div>
+            <div class="matrix-row">
+                <div class="wing-ar">مال</div>
+                <div class="key-token">M</div>
+                <div class="wing-en">Monetary</div>
+            </div>
+            <div class="matrix-row">
+                <div class="wing-ar">وقار</div>
+                <div class="key-token">O</div>
+                <div class="wing-en">Original</div>
+            </div>
+            <div class="matrix-row">
+                <div class="wing-ar">سيادة</div>
+                <div class="key-token">S</div>
+                <div class="wing-en">Sovereign</div>
+            </div>
         </div>
         
-        <!-- مؤشر التنويم الإوخائي الميكروي -->
+        <!-- التريجر الحكيم للعبور -->
         <div class="console-trigger">حيث تبدأ الحقيقة.. وينتهي الزيف</div>
     </div>
 
