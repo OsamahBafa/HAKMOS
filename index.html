@@ -1,34 +1,33 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>HAKMOS | Quantum Sovereign Node</title>
+    <title>HAKMOS | Transcendent Quantum Hyper-Node</title>
 
     <!-- PWA Primary Meta Tags -->
-    <meta name="theme-color" content="#030712">
+    <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="HAKMOS Node">
+    <meta name="apple-mobile-web-app-title" content="HAKMOS">
+    <meta name="description" content="HAKMOS Universal Transcendent Sovereign Node">
+    <link rel="manifest" id="pwa-manifest">
 
-    <!-- PWA Web App Manifest -->
-    <link rel="manifest" href='data:application/manifest+json,{"name":"HAKMOS Sovereign Node","short_name":"HAKMOS","start_url":".","display":"standalone","background_color":"#030712","theme_color":"#030712","orientation":"portrait-primary","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><rect width=\"512\" height=\"512\" fill=\"%23030712\"/><circle cx=\"256\" cy=\"256\" r=\"180\" stroke=\"%23F59E0B\" stroke-width=\"12\" fill=\"none\"/><text x=\"50%\" y=\"55%\" font-family=\"sans-serif\" font-size=\"200\" font-weight=\"900\" fill=\"%23F59E0B\" text-anchor=\"middle\" dominant-baseline=\"middle\">H</text></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
-
-    <!-- Fonts -->
+    <!-- Preload Advanced Holographic & Geometric Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Space+Grotesk:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Syne:wght@700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-deep: #030712;
-            --quantum-gold: #F59E0B;
-            --quantum-cyan: #06B6D4;
-            --glass-bg: rgba(15, 23, 42, 0.65);
-            --glass-border: rgba(245, 158, 11, 0.25);
-            --text-main: #F9FAFB;
-            --font-ar: 'Tajawal', sans-serif;
-            --font-en: 'Space Grotesk', sans-serif;
+            --bg-hyper: #000000;
+            --singularity-gold: #FFD700;
+            --singularity-cyan: #00F3FF;
+            --singularity-violet: #8A2BE2;
+            --text-glow: #FFFFFF;
+            --font-hyper: 'Orbitron', sans-serif;
+            --font-art: 'Syne', sans-serif;
+            --font-code: 'Space Grotesk', sans-serif;
         }
 
         * {
@@ -43,9 +42,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            font-family: var(--font-ar);
+            background-color: var(--bg-hyper);
+            color: var(--text-glow);
+            font-family: var(--font-code);
         }
 
         body {
@@ -53,10 +52,10 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
-        #quantumCanvas {
+        /* WebGL / Canvas Matrix Web Layer */
+        #hyperCanvas {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
@@ -64,284 +63,422 @@
             pointer-events: none;
         }
 
-        .aura-glow {
+        /* Dynamic Reactive Quantum Singularity Arc */
+        .quantum-singularity {
             position: absolute;
-            width: 550px;
-            height: 550px;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.09) 0%, rgba(245, 158, 11, 0.06) 40%, transparent 70%);
-            transform: translate(-50%, -50%);
+            width: clamp(320px, 60vw, 650px);
+            height: clamp(320px, 60vw, 650px);
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, rgba(0, 243, 255, 0.15), rgba(138, 43, 226, 0.2), rgba(255, 215, 0, 0.15), rgba(0, 243, 255, 0.15));
+            filter: blur(60px);
             z-index: 1;
             pointer-events: none;
-            transition: width 0.4s ease, height 0.4s ease;
+            animation: rotateSingularity 20s linear infinite;
+            transform-origin: center;
         }
 
-        .node-card {
+        @keyframes rotateSingularity {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.08); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+        }
+
+        /* Seamless Hyper-Stage */
+        .hyper-stage {
             position: relative;
             z-index: 2;
-            width: 92%;
-            max-width: 720px;
-            max-height: 88vh;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: clamp(24px, 5vw, 44px);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            box-shadow: 
-                0 30px 70px rgba(0, 0, 0, 0.7),
-                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            width: 100%;
+            max-width: 1100px;
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             text-align: center;
         }
 
-        .badge-tag {
+        /* Sovereign Telemetry Tag */
+        .telemetry-bar {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 18px;
-            border-radius: 50px;
-            background: rgba(245, 158, 11, 0.08);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: var(--quantum-gold);
-            font-size: 0.75rem;
-            font-family: var(--font-en);
-            letter-spacing: 2px;
+            gap: 12px;
+            padding: 6px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 100px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-family: var(--font-hyper);
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
-            margin-bottom: 22px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
         }
 
-        .badge-dot {
+        .quantum-pulse {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background-color: var(--quantum-cyan);
-            box-shadow: 0 0 10px var(--quantum-cyan);
-            animation: pulse 2s infinite;
+            background: var(--singularity-cyan);
+            box-shadow: 0 0 12px var(--singularity-cyan);
+            animation: hyperPulse 1.8s ease-in-out infinite alternate;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.8); }
+        @keyframes hyperPulse {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.4); }
         }
 
-        .node-title {
-            font-family: var(--font-en);
-            font-weight: 900;
-            font-size: clamp(2.8rem, 8vw, 4.2rem);
-            letter-spacing: 10px;
-            text-indent: 10px;
+        /* Kinetic Monolithic Title */
+        .kinetic-title-wrapper {
+            position: relative;
+            margin-bottom: 3rem;
+            perspective: 1000px;
+        }
+
+        .kinetic-title {
+            font-family: var(--font-art);
+            font-weight: 800;
+            font-size: clamp(3.8rem, 13vw, 8.5rem);
+            letter-spacing: 22px;
+            text-indent: 22px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #FFFFFF 0%, var(--quantum-gold) 60%, var(--quantum-cyan) 100%);
+            color: transparent;
+            background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0.9) 30%, var(--singularity-gold) 70%, var(--singularity-cyan) 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 14px;
-            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
+            background-clip: text;
+            filter: drop-shadow(0 0 45px rgba(0, 243, 255, 0.25));
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .manifesto-box {
-            width: 100%;
-            font-size: clamp(0.9rem, 2.3vw, 1.02rem);
-            line-height: 1.85;
-            color: rgba(249, 250, 251, 0.95);
-            padding: 18px 20px;
-            margin-bottom: 28px;
-            background: rgba(3, 7, 18, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            text-align: justify;
-        }
-
-        .keys-container {
+        /* Non-Standard Circular Matrix Coordinates */
+        .keys-hyper-ring {
             display: flex;
             justify-content: center;
-            gap: clamp(8px, 2.2vw, 16px);
+            align-items: center;
+            gap: clamp(12px, 3.5vw, 32px);
             width: 100%;
-            margin-bottom: 24px;
+            margin-bottom: 3.5rem;
             direction: ltr;
         }
 
-        .key-btn {
+        .node-key {
             position: relative;
-            width: clamp(44px, 11vw, 68px);
-            height: clamp(52px, 13vw, 76px);
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 16px;
+            width: clamp(54px, 12vw, 90px);
+            height: clamp(68px, 14vw, 110px);
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .key-btn span {
-            font-family: var(--font-en);
+        .node-key::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, var(--singularity-cyan) 0%, var(--singularity-violet) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .node-key span {
+            position: relative;
+            z-index: 2;
+            font-family: var(--font-hyper);
             font-weight: 900;
-            font-size: clamp(1.4rem, 4vw, 2.1rem);
-            background: linear-gradient(180deg, #FFFFFF 0%, var(--quantum-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: all 0.3s ease;
+            font-size: clamp(1.8rem, 5.5vw, 3.2rem);
+            color: rgba(255, 255, 255, 0.35);
+            transition: all 0.4s ease;
         }
 
-        .key-btn:hover, .key-btn.active {
-            transform: translateY(-5px) scale(1.05);
-            border-color: var(--quantum-cyan);
-            background: linear-gradient(145deg, rgba(6, 182, 212, 0.2), rgba(15, 23, 42, 0.95));
-            box-shadow: 0 12px 28px rgba(6, 182, 212, 0.3), inset 0 0 12px rgba(6, 182, 212, 0.2);
+        .node-key .key-label {
+            position: absolute;
+            bottom: 8px;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.2);
+            font-family: var(--font-code);
+            z-index: 2;
+            transition: all 0.4s ease;
         }
 
-        .key-btn:hover span, .key-btn.active span {
-            background: linear-gradient(180deg, #FFFFFF 0%, var(--quantum-cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .node-key:hover, .node-key.active {
+            transform: translateY(-8px) scale(1.05);
+            border-color: var(--singularity-cyan);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
         }
 
-        .tooltip-card {
+        .node-key:hover::after, .node-key.active::after {
+            opacity: 0.12;
+        }
+
+        .node-key:hover span, .node-key.active span {
+            color: #FFFFFF;
+            text-shadow: 0 0 20px var(--singularity-cyan), 0 0 40px var(--singularity-gold);
+        }
+
+        .node-key:hover .key-label, .node-key.active .key-label {
+            color: var(--singularity-gold);
+        }
+
+        /* Multilingual Quantum Array Display */
+        .quantum-array-output {
             width: 100%;
-            min-height: 72px;
-            padding: 14px 20px;
-            border-radius: 14px;
-            background: rgba(3, 7, 18, 0.85);
-            border: 1px solid var(--quantum-cyan);
-            color: var(--quantum-cyan);
-            font-size: clamp(0.85rem, 2.2vw, 0.95rem);
-            font-weight: 500;
-            line-height: 1.6;
+            max-width: 850px;
+            min-height: 140px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.5s ease;
         }
 
-        @media (max-height: 680px) {
-            .node-card { padding: 18px; }
-            .badge-tag { margin-bottom: 12px; }
-            .manifesto-box { margin-bottom: 16px; padding: 12px 16px; }
-            .keys-container { margin-bottom: 16px; }
-            .tooltip-card { min-height: 60px; padding: 10px 14px; }
+        .array-header {
+            font-family: var(--font-hyper);
+            font-size: clamp(0.9rem, 2.2vw, 1.2rem);
+            letter-spacing: 6px;
+            color: var(--singularity-gold);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .array-matrix {
+            font-size: clamp(0.85rem, 2vw, 1.05rem);
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            font-weight: 300;
+            word-break: break-word;
+            max-width: 750px;
+        }
+
+        .array-hint {
+            font-family: var(--font-hyper);
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            animation: pulseText 3s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.6; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="quantumCanvas"></canvas>
-    <div class="aura-glow" id="auraGlow"></div>
+    <canvas id="hyperCanvas"></canvas>
+    <div class="quantum-singularity" id="singularityCore"></div>
 
-    <main class="node-card">
-        <div class="badge-tag">
-            <span class="badge-dot"></span>
-            <span>Sovereign Gateway • Lifetime Protocol</span>
+    <main class="hyper-stage">
+        <div class="telemetry-bar">
+            <span class="quantum-pulse"></span>
+            <span>TRANSCENDENT NODE • UNIVERSAL DYNAMICS</span>
         </div>
 
-        <h1 class="node-title">HAKMOS</h1>
-
-        <div class="manifesto-box">
-            <b>لا يهم من تكون.. غنياً يبتغي اتساع الأصول أو فقيراً يسعى نحو التمكين والربح، عالماً يثبت نتاجه أو باحثاً عن الذيوع الإعلامي، مريضاً يستطبّ أو صحيحاً يستزيد من الحيوية، باحثاً عن سكن وزواج نقي أو طامحاً لحياة مكتملة، رجلاً أو امرأة.. من بداية دربك وحتى ختام العمر.</b>
+        <div class="kinetic-title-wrapper">
+            <h1 class="kinetic-title">HAKMOS</h1>
         </div>
 
-        <div class="keys-container" id="keysContainer">
-            <div class="key-btn" data-info="🏥 العيادة الشمولية: رعاية صحية وتغطية طبية متكاملة وحفظ لحيوية جسدك، بخصوصية وسرية متكاملة تتفوق على أي رادار.">
-                <span>H</span>
-            </div>
-            <div class="key-btn" data-info="🏰 الارتباط الحقيقي: بيئة زواج وارتباط حقيقي وبناء أسري نقي يضمن الاستقرار والسكينة والمتعة بعيداً عن صخب العالم الخارجي.">
-                <span>A</span>
-            </div>
-            <div class="key-btn" data-info="⚡ الجدارة والارتقاء: منصة عمل وتعلم حقيقي تعتمد الجدارة وحدها؛ حيث تتحول مهاراتك وشغفك إلى تمكين وارتقاء وربح مجزٍ.">
-                <span>K</span>
-            </div>
-            <div class="key-btn" data-info="💰 بيت المال: تنمية أصولك وتسييل أرباحك بسلاسة ونقاء تام، لضمان استقلالك المالي وسيادتك مدى الحياة.">
-                <span>M</span>
-            </div>
-            <div class="key-btn" data-info="📜 الديوان الأسود: المساحة الحرة المطلقة للتعبير، صيانة الأفكار، وحفظ الحقيقة من الضياع والتزييف.">
-                <span>O</span>
-            </div>
-            <div class="key-btn" data-info="🔑 الهدف الأسمى: حرية، سرية، أمان، ومتعة بلا حدود.. مفتاحك الخاص جاهز لمنحك التأشيرة الذهبية مدى الحياة.">
-                <span>S</span>
-            </div>
+        <!-- Non-Standard Hyper Octagonal Keys -->
+        <div class="keys-hyper-ring">
+            <div class="node-key" data-key="H"><span class="key-label">NODE_01</span><span>H</span></div>
+            <div class="node-key" data-key="A"><span class="key-label">NODE_02</span><span>A</span></div>
+            <div class="node-key" data-key="K"><span class="key-label">NODE_03</span><span>K</span></div>
+            <div class="node-key" data-key="M"><span class="key-label">NODE_04</span><span>M</span></div>
+            <div class="node-key" data-key="O"><span class="key-label">NODE_05</span><span>O</span></div>
+            <div class="node-key" data-key="S"><span class="key-label">NODE_06</span><span>S</span></div>
         </div>
 
-        <div class="tooltip-card" id="tooltipCard">
-            المس أحد حروف الشفرة لتكتشف أبعاد عبورك الأبدي_
+        <!-- Universal Multilingual Stream Matrix -->
+        <div class="quantum-array-output" id="arrayOutput">
+            <div class="array-hint">INITIALIZE TRANSCENDENT LINK // SELECT FREQUENCY</div>
         </div>
     </main>
 
     <script>
-        const keys = document.querySelectorAll('.key-btn');
-        const tooltipCard = document.getElementById('tooltipCard');
-        const auraGlow = document.getElementById('auraGlow');
-
-        const moveAura = (x, y) => {
-            auraGlow.style.left = x + 'px';
-            auraGlow.style.top = y + 'px';
+        // Inline Manifest Generation for Self-Contained PWA Capability
+        const manifestData = {
+            "name": "HAKMOS Sovereign Node",
+            "short_name": "HAKMOS",
+            "start_url": "./",
+            "display": "standalone",
+            "background_color": "#000000",
+            "theme_color": "#000000",
+            "orientation": "portrait-primary",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23000000'><rect width='512' height='512' fill='%23000000'/><circle cx='256' cy='256' r='200' stroke='%2300F3FF' stroke-width='16' fill='none'/><text x='51%' y='58%' dominant-baseline='middle' text-anchor='middle' fill='%23FFD700' font-family='sans-serif' font-size='180' font-weight='900'>H</text></svg>",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml",
+                    "purpose": "any maskable"
+                }
+            ]
         };
-        window.addEventListener('mousemove', (e) => moveAura(e.clientX, e.clientY));
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+        document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(manifestBlob));
+
+        // Self-Registering Service Worker (Offline Support & PWA Compliance)
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                const CACHE_NAME = 'hakmos-v1';
+                self.addEventListener('install', (e) => {
+                    self.skipWaiting();
+                });
+                self.addEventListener('activate', (e) => {
+                    e.waitUntil(clients.claim());
+                });
+                self.addEventListener('fetch', (e) => {
+                    e.respondWith(
+                        fetch(e.request).catch(() => caches.match(e.request))
+                    );
+                });
+            `;
+            const swBlob = new Blob([swCode], { type: 'text/javascript' });
+            navigator.serviceWorker.register(URL.createObjectURL(swBlob))
+                .catch(err => console.log('SW registration note:', err));
+        }
+
+        // Transcendent Multilingual Universal Mapping
+        const transcendentMap = {
+            H: {
+                title: "HOLISTIC MATRIX • 01",
+                matrix: "AR: العيادة الشمولية • EN: Holistic Care • ZH: 全人健康 • ES: Clínica Holística • HI: समग्र स्वास्थ्य • RU: Холистический Центр • FR: Clinique Holistique • DE: Ganzheitliche Pflege • JA: 全人的ケア • PT: Clínica Holística"
+            },
+            A: {
+                title: "ALIGNED SYNERGY • 02",
+                matrix: "AR: الارتباط الحقيقي • EN: True Alignment • ZH: 真实契合 • ES: Alineación Real • HI: वास्तविक संरेखण • RU: Истинный Союз • FR: Alignement Pur • DE: Echte Ausrichtung • JA: 真の調和 • PT: Alinhamento Verdadeiro"
+            },
+            K: {
+                title: "KINETIC MERIT • 03",
+                matrix: "AR: الجدارة والارتقاء • EN: Merit & Elevation • ZH: 绩效与昇华 • ES: Mérito y Elevación • HI: योग्यता और उन्नति • RU: Меритократия • FR: Mérite & Élévation • DE: Verdienst & Aufstieg • JA: 実力昇華 • PT: Mérito e Elevação"
+            },
+            M: {
+                title: "MONETARY SOVEREIGNTY • 04",
+                matrix: "AR: بيت المال • EN: Sovereign Treasury • ZH: 主权金库 • ES: Tesorería Soberana • HI: संप्रभु कोष • RU: Суверенная Казна • FR: Trésorerie Souveraine • DE: Souveräner Schatz • JA: 主権金庫 • PT: Tesouraria Soberana"
+            },
+            O: {
+                title: "ORIGINAL ARCHIVES • 05",
+                matrix: "AR: الديوان الأسود • EN: Black Archives • ZH: 黑色档案馆 • ES: Archivos Negros • HI: ब्लैक आर्काइव • RU: Черный Архив • FR: Archives Noires • DE: Schwarzes Archiv • JA: 漆黒の文書館 • PT: Arquivos Negros"
+            },
+            S: {
+                title: "SUPREME DESTINY • 06",
+                matrix: "AR: الهدف الأسمى • EN: Supreme Destiny • ZH: 至高天命 • ES: Destino Supremo • HI: सर्वोच्च नियति • RU: Высшая Цель • FR: Destinée Suprême • DE: Höchste Bestimmung • JA: 至高の天命 • PT: Destino Supremo"
+            }
+        };
+
+        const nodeKeys = document.querySelectorAll('.node-key');
+        const arrayOutput = document.getElementById('arrayOutput');
+        const singularityCore = document.getElementById('singularityCore');
+
+        // Dynamic Singularity Tracking
+        const moveSingularity = (x, y) => {
+            singularityCore.style.left = x + 'px';
+            singularityCore.style.top = y + 'px';
+        };
+        window.addEventListener('mousemove', (e) => moveSingularity(e.clientX, e.clientY));
         window.addEventListener('touchmove', (e) => {
-            if(e.touches.length > 0) moveAura(e.touches[0].clientX, e.touches[0].clientY);
+            if(e.touches.length > 0) moveSingularity(e.touches[0].clientX, e.touches[0].clientY);
         });
 
-        const canvas = document.getElementById('quantumCanvas');
+        // Generative Hyper-Node Canvas Mesh
+        const canvas = document.getElementById('hyperCanvas');
         const ctx = canvas.getContext('2d');
-        let step = 0;
+        let nodes = [];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            nodes = [];
+            const count = Math.floor((canvas.width * canvas.height) / 18000);
+            for (let i = 0; i < count; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    color: Math.random() > 0.5 ? '#00F3FF' : '#FFD700',
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3
+                });
+            }
         }
+
+        function drawHyperMesh() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < nodes.length; i++) {
+                const n1 = nodes[i];
+                n1.x += n1.vx;
+                n1.y += n1.vy;
+
+                if (n1.x < 0 || n1.x > canvas.width) n1.vx *= -1;
+                if (n1.y < 0 || n1.y > canvas.height) n1.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(n1.x, n1.y, n1.radius, 0, Math.PI * 2);
+                ctx.fillStyle = n1.color;
+                ctx.globalAlpha = 0.4;
+                ctx.fill();
+
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const n2 = nodes[j];
+                    const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
+
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(n1.x, n1.y);
+                        ctx.lineTo(n2.x, n2.y);
+                        ctx.strokeStyle = n1.color;
+                        ctx.globalAlpha = (1 - dist / 110) * 0.15;
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(drawHyperMesh);
+        }
+
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
+        drawHyperMesh();
 
-        function drawQuantumWaves() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            step += 0.008;
+        // Node Trigger Logic
+        nodeKeys.forEach(btn => {
+            const triggerNode = () => {
+                nodeKeys.forEach(k => k.classList.remove('active'));
+                btn.classList.add('active');
 
-            for (let i = 0; i < 3; i++) {
-                ctx.beginPath();
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = i % 2 === 0 ? 'rgba(245, 158, 11, 0.08)' : 'rgba(6, 182, 212, 0.08)';
+                const key = btn.getAttribute('data-key');
+                const data = transcendentMap[key];
 
-                for (let x = 0; x < canvas.width; x += 10) {
-                    const y = Math.sin(x * 0.003 + step + i) * 40 + Math.cos(x * 0.001 + step) * 20 + canvas.height / 2;
-                    if (x === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                }
-                ctx.stroke();
-            }
-            requestAnimationFrame(drawQuantumWaves);
-        }
-        drawQuantumWaves();
+                arrayOutput.style.opacity = '0';
+                arrayOutput.style.transform = 'scale(0.98)';
 
-        keys.forEach(key => {
-            const handleInteraction = () => {
-                keys.forEach(k => k.classList.remove('active'));
-                key.classList.add('active');
-                const info = key.getAttribute('data-info');
-                
-                tooltipCard.style.opacity = '0';
                 setTimeout(() => {
-                    tooltipCard.innerHTML = info;
-                    tooltipCard.style.opacity = '1';
-                }, 150);
+                    arrayOutput.innerHTML = `
+                        <div class="array-header">${data.title}</div>
+                        <div class="array-matrix">${data.matrix}</div>
+                    `;
+                    arrayOutput.style.opacity = '1';
+                    arrayOutput.style.transform = 'scale(1)';
+                }, 180);
             };
 
-            key.addEventListener('mouseenter', handleInteraction);
-            key.addEventListener('click', handleInteraction);
+            btn.addEventListener('mouseenter', triggerNode);
+            btn.addEventListener('click', triggerNode);
         });
-
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
-                self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
-                self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
-            `;
-            const blob = new Blob([swCode], { type: 'text/javascript' });
-            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-        }
     </script>
 </body>
 </html>
-
