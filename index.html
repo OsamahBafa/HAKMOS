@@ -2,13 +2,23 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>HAKMOS | Cyber Sovereign Protocol v133</title>
     
+    <!-- PWA Primary Meta Tags -->
+    <meta name="theme-color" content="#010102">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HAKMOS">
+    <meta name="description" content="Cyber Sovereign Protocol - HAKMOS PWA">
+    
+    <!-- PWA Web App Manifest (Data URI) -->
+    <link rel="manifest" href='data:application/manifest+json,{"name":"HAKMOS Sovereign Protocol","short_name":"HAKMOS","start_url":".","display":"standalone","background_color":"#010102","theme_color":"#010102","orientation":"portrait-primary","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><rect width=\"512\" height=\"512\" fill=\"%23010102\"/><text x=\"50%\" y=\"55%\" font-family=\"Orbitron,sans-serif\" font-size=\"220\" font-weight=\"900\" fill=\"%23E5A93B\" text-anchor=\"middle\" dominant-baseline=\"middle\">H</text></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
+
     <!-- الخطوط -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Cairo:wght@300;400;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -22,79 +32,144 @@
             --font-en: 'Orbitron', sans-serif;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+        }
         
-        body {
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             background-color: var(--bg-void); 
             color: var(--text-pure); 
-            height: 100vh;
+            font-family: var(--font-ar);
+        }
+
+        body {
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            overflow: hidden; 
             position: relative;
-            font-family: var(--font-ar);
             background-image: 
                 linear-gradient(to right, rgba(229, 169, 59, 0.015) 1px, transparent 1px), 
                 linear-gradient(to bottom, rgba(229, 169, 59, 0.015) 1px, transparent 1px);
             background-size: 40px 40px;
             transition: font-family 0.3s ease;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
-        /* كانفاس الجسيمات المتفاعلة */
         #particleCanvas {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
         }
 
-        /* شعاع توهج الماوس Dynamic Dynamic Glow */
         .cursor-glow {
             position: absolute;
-            width: 500px;
-            height: 500px;
+            width: 450px; height: 450px;
             background: radial-gradient(circle, rgba(229, 169, 59, 0.06) 0%, rgba(0,0,0,0) 70%);
             transform: translate(-50%, -50%);
             z-index: 1;
             pointer-events: none;
-            transition: width 0.3s, height 0.3s;
         }
 
-        .cinematic-container { position: relative; z-index: 2; width: 100%; max-width: 760px; padding: 20px; text-align: center; }
+        /* حاوية متوازنة الابعاد والمقاسات */
+        .cinematic-container { 
+            position: relative; 
+            z-index: 2; 
+            width: 100%; 
+            max-width: 760px; 
+            max-height: 90vh;
+            padding: 24px; 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         
-        .main-logo {
-            font-family: var(--font-en); font-weight: 900; font-size: 3.8rem; letter-spacing: 16px; text-indent: 16px; text-transform: uppercase;
-            background: linear-gradient(180deg, #FFFFFF 30%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(229, 169, 59, 0.2)); margin-bottom: 32px; transition: transform 0.5s ease;
+        .brand-header {
+            transition: transform 0.5s ease;
+            margin-bottom: 24px;
+            flex-shrink: 0;
         }
 
-        .console-box { width: 100%; max-width: 560px; margin: 0 auto 28px auto; }
-        .console-input {
-            width: 100%; background: rgba(255, 255, 255, 0.015); border: 1px solid var(--panel-border);
-            border-radius: 6px; padding: 18px 24px; color: var(--text-pure); font-size: 1rem;
-            text-align: center; outline: none; transition: all 0.4s ease;
+        .main-logo {
+            font-family: var(--font-en); 
+            font-weight: 900; 
+            font-size: clamp(2.2rem, 6vw, 3.8rem); 
+            letter-spacing: clamp(6px, 2vw, 16px); 
+            text-indent: clamp(6px, 2vw, 16px); 
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #FFFFFF 30%, var(--cyber-gold) 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(229, 169, 59, 0.2)); 
         }
-        .console-input:focus { border-color: var(--cyber-gold); box-shadow: 0 0 25px var(--cyber-gold-glow); background: rgba(229, 169, 59, 0.02); }
-        .console-input::placeholder { transition: opacity 0.3s ease; }
 
         .manifest-output {
-            max-height: 320px; overflow-y: auto; font-size: 1rem; text-align: justify; line-height: 1.8;
-            color: rgba(255, 255, 255, 0.88); padding: 16px 20px; margin-bottom: 28px; display: none;
-            border-inline-start: 3px solid var(--cyber-gold); background: rgba(255, 255, 255, 0.008); border-radius: 4px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 40vh; 
+            overflow-y: auto; 
+            font-size: clamp(0.85rem, 2.5vw, 0.98rem); 
+            text-align: justify; 
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.88); 
+            padding: 16px 20px; 
+            margin-bottom: 24px; 
+            display: none;
+            border-inline-start: 3px solid var(--cyber-gold); 
+            background: rgba(255, 255, 255, 0.008); 
+            border-radius: 4px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
+        
         .manifest-output::-webkit-scrollbar { width: 4px; }
         .manifest-output::-webkit-scrollbar-thumb { background: var(--cyber-gold); border-radius: 2px; }
 
-        .gate-highlight { color: var(--cyber-gold); font-weight: 700; font-family: var(--font-en); display: inline-block; margin: 0 4px; }
-        .terminal-anchor { font-size: 0.9rem; color: var(--text-dim); letter-spacing: 2px; transition: color 0.3s; }
+        .console-box { 
+            width: 100%; 
+            max-width: 560px; 
+            margin: 0 auto 20px auto; 
+            flex-shrink: 0;
+        }
+        
+        .console-input {
+            width: 100%; 
+            background: rgba(255, 255, 255, 0.015); 
+            border: 1px solid var(--panel-border);
+            border-radius: 8px; 
+            padding: 16px 20px; 
+            color: var(--text-pure); 
+            font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+            text-align: center; 
+            outline: none; 
+            transition: all 0.4s ease;
+        }
+        
+        .console-input:focus { 
+            border-color: var(--cyber-gold); 
+            box-shadow: 0 0 25px var(--cyber-gold-glow); 
+            background: rgba(229, 169, 59, 0.02); 
+        }
 
-        @media (max-width: 768px) {
-            .main-logo { font-size: 2.5rem; letter-spacing: 8px; text-indent: 8px; }
-            .console-input { font-size: 0.9rem; padding: 14px; }
+        .gate-highlight { color: var(--cyber-gold); font-weight: 700; font-family: var(--font-en); display: inline-block; margin: 0 4px; }
+        .terminal-anchor { font-size: clamp(0.75rem, 2vw, 0.85rem); color: var(--text-dim); letter-spacing: 1.5px; transition: color 0.3s; flex-shrink: 0; }
+
+        /* الشاشات الصغيرة والتجاوب */
+        @media (max-height: 600px) {
+            .cinematic-container { padding: 12px; }
+            .brand-header { margin-bottom: 12px; }
+            .console-box { margin-bottom: 12px; }
+            .manifest-output { max-height: 30vh; }
         }
     </style>
 </head>
@@ -111,7 +186,7 @@
         <div class="manifest-output" id="manifestOutput"></div>
 
         <div class="console-box">
-            <input type="text" class="console-input" id="magicConsole" autocomplete="off">
+            <input type="text" class="console-input" id="magicConsole" autocomplete="off" spellcheck="false">
         </div>
         
         <div class="terminal-anchor" id="statusAnchor"></div>
@@ -178,10 +253,14 @@
         const statusAnchor = document.getElementById('statusAnchor');
         const cursorGlow = document.getElementById('cursorGlow');
 
-        /* تتبع الماوس للتوهج */
-        window.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
+        /* تتبع الماوس واللمس */
+        const updateGlow = (x, y) => {
+            cursorGlow.style.left = x + 'px';
+            cursorGlow.style.top = y + 'px';
+        };
+        window.addEventListener('mousemove', (e) => updateGlow(e.clientX, e.clientY));
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) updateGlow(e.touches[0].clientX, e.touches[0].clientY);
         });
 
         /* نظام الجسيمات */
@@ -198,6 +277,9 @@
 
         class Particle {
             constructor() {
+                this.reset();
+            }
+            reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 1.5 + 0.5;
@@ -206,10 +288,7 @@
             }
             update() {
                 this.y += this.speedY;
-                if (this.y < 0) {
-                    this.y = canvas.height;
-                    this.x = Math.random() * canvas.width;
-                }
+                if (this.y < 0) this.reset();
             }
             draw() {
                 ctx.fillStyle = `rgba(229, 169, 59, ${this.opacity})`;
@@ -219,21 +298,16 @@
             }
         }
 
-        for (let i = 0; i < 45; i++) {
-            particles.push(new Particle());
-        }
+        for (let i = 0; i < 40; i++) particles.push(new Particle());
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
 
-        /* إدارة اللغات والتفاعل */
+        /* تطبيق اللغات والواجهة */
         function applyLanguageSettings() {
             const langData = i18n[currentLang];
             document.documentElement.lang = currentLang;
@@ -255,7 +329,6 @@
                 }
                 return; 
             }
-
             const isArabic = /[\u0600-\u06FF]/.test(val);
             const newLang = isArabic ? 'ar' : 'en';
 
@@ -278,7 +351,7 @@
                 magicConsole.value = '';
 
                 setTimeout(() => {
-                    brandHeader.style.transform = "scale(0.9) translateY(-10px)";
+                    brandHeader.style.transform = "scale(0.85)";
                     manifestOutput.style.display = "block";
 
                     if (query.match(/(خوف|أمان|بيانات|خصوصية|privacy|security|data)/)) {
@@ -290,7 +363,7 @@
                         statusAnchor.innerText = i18n[processedLang].success;
                         statusAnchor.style.color = "#fff";
                     }
-                }, 600);
+                }, 500);
             }
         });
 
@@ -313,6 +386,19 @@
         }
 
         applyLanguageSettings();
+
+        /* تسجيل Service Worker مدمج للتطبيقات التقدمية (Offline PWA) */
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                const CACHE_NAME = 'hakmos-v1';
+                self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
+                self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+                self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+            `;
+            const blob = new Blob([swCode], { type: 'text/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl).catch(() => {});
+        }
     </script>
 </body>
 </html>
