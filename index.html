@@ -2,554 +2,633 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>HAKMOS — الكيان الحي</title>
+
+<!-- PWA -->
+<meta name="theme-color" content="#03040a">
+<meta name="description" content="HAKMOS Living Entity">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HAKMOS">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" id="pwa-manifest">
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@200;300;400&family=Noto+Sans:wght@200;300;400&family=Orbitron:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400&family=Orbitron:wght@600;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;background:#02030a;font-family:'Noto Sans Arabic','Noto Sans',sans-serif}
+html,body{width:100%;height:100%;overflow:hidden;background:#03040a;font-family:'Noto Sans Arabic',sans-serif}
 canvas{display:block;width:100%;height:100%;cursor:none}
-#whisper{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(180,220,255,0);font-weight:300;font-size:clamp(1rem,2.8vw,1.45rem);letter-spacing:3px;text-align:center;pointer-events:none;transition:opacity 3s ease;z-index:20;text-shadow:0 0 40px rgba(140,200,255,0.4);max-width:84vw;line-height:1.75;direction:auto}
-#concept{position:fixed;bottom:7%;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;z-index:20;opacity:0;transition:opacity .7s ease;max-width:92vw}
-#concept .title{font-family:'Orbitron',sans-serif;font-size:clamp(.7rem,1.9vw,.95rem);letter-spacing:4px;color:rgba(255,220,140,.9);margin-bottom:7px;text-transform:uppercase}
-#concept .matrix{font-size:clamp(.68rem,1.55vw,.88rem);color:rgba(200,230,255,.72);line-height:1.7;font-weight:300}
-.cursor-dot{position:fixed;width:5px;height:5px;background:rgba(160,220,255,.75);border-radius:50%;pointer-events:none;z-index:100;box-shadow:0 0 12px rgba(140,210,255,.7);transform:translate(-50%,-50%)}
+#whisper{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(180,220,255,0);font-weight:300;font-size:clamp(1rem,2.7vw,1.4rem);letter-spacing:3px;text-align:center;pointer-events:none;transition:opacity 2.8s ease;z-index:20;text-shadow:0 0 30px rgba(140,200,255,0.4);max-width:85vw;line-height:1.7;direction:auto}
+#concept{position:fixed;bottom:6%;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;z-index:20;opacity:0;transition:opacity 0.6s ease;max-width:92vw}
+#concept .title{font-family:'Orbitron',sans-serif;font-size:clamp(0.7rem,1.8vw,0.95rem);letter-spacing:4px;color:rgba(255,220,140,0.9);margin-bottom:6px;text-transform:uppercase}
+#concept .matrix{font-size:clamp(0.65rem,1.5vw,0.85rem);color:rgba(200,230,255,0.7);line-height:1.65;font-weight:300}
+.cursor-dot{position:fixed;width:6px;height:6px;background:rgba(160,220,255,0.85);border-radius:50%;pointer-events:none;z-index:100;box-shadow:0 0 12px rgba(140,210,255,0.7);transform:translate(-50%,-50%)}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div id="whisper"></div>
-<div id="concept"><div class="title"></div><div class="matrix"></div></div>
+<div id="concept">
+  <div class="title"></div>
+  <div class="matrix"></div>
+</div>
 <div class="cursor-dot" id="dot"></div>
 
 <script>
 (() => {
-    const canvas = document.getElementById('c');
-    const ctx = canvas.getContext('2d', { alpha: false }); // تحسين بسيط
-    const whisperEl = document.getElementById('whisper');
-    const conceptEl = document.getElementById('concept');
-    const conceptTitle = conceptEl.querySelector('.title');
-    const conceptMatrix = conceptEl.querySelector('.matrix');
-    const dot = document.getElementById('dot');
+  // ===== PWA =====
+  const manifest = {
+    name: "HAKMOS — الكيان الحي",
+    short_name: "HAKMOS",
+    description: "HAKMOS Living Entity",
+    start_url: "./",
+    display: "standalone",
+    background_color: "#03040a",
+    theme_color: "#03040a",
+    orientation: "any",
+    icons: [{
+      src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%2303040a'/><circle cx='256' cy='256' r='180' fill='none' stroke='%2300d4ff' stroke-width='18'/><circle cx='256' cy='256' r='90' fill='%2300d4ff' opacity='0.25'/><text x='256' y='278' font-size='130' font-family='Arial' font-weight='bold' fill='%23FFD700' text-anchor='middle'>H</text></svg>",
+      sizes: "512x512",
+      type: "image/svg+xml",
+      purpose: "any maskable"
+    }]
+  };
+  document.getElementById('pwa-manifest').href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type:'application/json'}));
 
-    let W, H, CX, CY;
-    let time = 0;
-    let mouse = {x:0,y:0,active:false,lastMove:0};
-    let energy = 0;
-    let scars = [];
-    let membrane = [];
-    let particles = [];
-    let ripples = [];
-    let fogLayers = [];
-    let lastWhisper = 0;
-    let activeNode = null;
-    let prevActiveKey = null;
-    let targetHue=210, currentHue=210;
-    let targetPulse=1, currentPulse=1;
-    let targetNoise=14, currentNoise=14;
+  if ('serviceWorker' in navigator) {
+    const sw = `
+      const CACHE = 'hakmos-v3';
+      self.addEventListener('install', e => {
+        self.skipWaiting();
+        e.waitUntil(caches.open(CACHE).then(c => c.add('./').catch(()=>{})));
+      });
+      self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+      self.addEventListener('fetch', e => {
+        e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./'))));
+      });
+    `;
+    navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw], {type:'text/javascript'}))).catch(()=>{});
+  }
 
-    // صوت
-    let audioCtx=null, masterGain=null, droneOsc=null, droneGain=null, droneFilter=null, audioStarted=false;
+  // ===== Variables =====
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  const whisperEl = document.getElementById('whisper');
+  const conceptEl = document.getElementById('concept');
+  const conceptTitle = conceptEl.querySelector('.title');
+  const conceptMatrix = conceptEl.querySelector('.matrix');
+  const dot = document.getElementById('dot');
 
-    function initAudio(){
-        if(audioStarted)return;
-        try{
-            audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-            masterGain=audioCtx.createGain();
-            masterGain.gain.value=0.14;
-            masterGain.connect(audioCtx.destination);
-            droneOsc=audioCtx.createOscillator();
-            droneOsc.type='sine';
-            droneOsc.frequency.value=55;
-            droneFilter=audioCtx.createBiquadFilter();
-            droneFilter.type='lowpass';
-            droneFilter.frequency.value=180;
-            droneFilter.Q.value=2;
-            droneGain=audioCtx.createGain();
-            droneGain.gain.value=0.35;
-            droneOsc.connect(droneFilter);
-            droneFilter.connect(droneGain);
-            droneGain.connect(masterGain);
-            droneOsc.start();
-            audioStarted=true;
-        }catch(e){}
+  let W=0, H=0, CX=0, CY=0;
+  let time=0, energy=0;
+  let mouse = {x:0,y:0,active:false,lastMove:0};
+  let membrane=[], particles=[], scars=[], ripples=[], fog=[];
+  let activeNode=null, prevActiveKey=null, lastWhisper=0;
+  let targetHue=210, currentHue=210;
+  let targetPulse=1, currentPulse=1;
+  let targetNoise=13, currentNoise=13;
+
+  // Audio
+  let audioCtx=null, masterGain=null, droneOsc=null, droneGain=null, droneFilter=null, audioStarted=false;
+
+  function initAudio() {
+    if (audioStarted) return;
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = 0.12;
+      masterGain.connect(audioCtx.destination);
+
+      droneOsc = audioCtx.createOscillator();
+      droneOsc.type = 'sine';
+      droneOsc.frequency.value = 50;
+
+      droneFilter = audioCtx.createBiquadFilter();
+      droneFilter.type = 'lowpass';
+      droneFilter.frequency.value = 150;
+
+      droneGain = audioCtx.createGain();
+      droneGain.gain.value = 0.3;
+
+      droneOsc.connect(droneFilter);
+      droneFilter.connect(droneGain);
+      droneGain.connect(masterGain);
+      droneOsc.start();
+      audioStarted = true;
+    } catch(e) {}
+  }
+
+  function playTone(freq, dur, type='sine', vol=0.1, attack=0.07) {
+    if (!audioStarted || !audioCtx) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      const now = audioCtx.currentTime;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(vol, now + attack);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+      osc.connect(gain);
+      gain.connect(masterGain);
+      osc.start(now);
+      osc.stop(now + dur + 0.04);
+    } catch(e) {}
+  }
+
+  function playNodeActivate() {
+    playTone(523.25, 0.9, 'sine', 0.07, 0.09);
+    setTimeout(() => playTone(659.25, 0.7, 'sine', 0.045, 0.07), 70);
+  }
+  function playProximity() { playTone(310 + Math.random()*35, 0.28, 'triangle', 0.018, 0.04); }
+  function playEnergy() { playTone(165 + Math.random()*20, 0.35, 'sine', 0.025, 0.03); }
+  function playWhisper() {
+    playTone(640, 1.1, 'sine', 0.035, 0.12);
+    setTimeout(() => playTone(800, 0.9, 'sine', 0.025, 0.1), 90);
+  }
+
+  function updateDrone() {
+    if (!audioStarted) return;
+    droneOsc.frequency.setTargetAtTime(46 + (currentHue/360)*28, audioCtx.currentTime, 0.5);
+    droneFilter.frequency.setTargetAtTime(125 + currentNoise*4.5, audioCtx.currentTime, 0.5);
+    droneGain.gain.setTargetAtTime(0.22 + energy*0.09, audioCtx.currentTime, 0.4);
+  }
+
+  function startAudio() {
+    if (!audioStarted) initAudio();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(()=>{});
+  }
+
+  // Vibration
+  function canVibrate() { return typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function'; }
+  function vibrateNode() { if (canVibrate()) navigator.vibrate([20, 25, 20]); }
+  function vibrateEnergy() { if (canVibrate()) navigator.vibrate(14); }
+  function vibrateWhisper() { if (canVibrate()) navigator.vibrate([16, 30, 16, 30, 16]); }
+
+  // Data
+  const hakmos = {
+    H: {title:"HOLISTIC CLINIC", matrix:"AR: العيادة الشمولية • EN: Holistic Clinic • ZH: 整体诊所 • ES: Clínica Holística • FR: Clinique Holistique • RU: Холистическая Клиника • JA: ホリスティック・クリニック • KO: 전인적 클리닉 • DE: Ganzheitliche Klinik • TR: Bütüncül Klinik"},
+    A: {title:"ALIGNED FORTRESS", matrix:"AR: الحصن المتوافق • EN: Aligned Fortress • ZH: 对齐堡垒 • ES: Fortaleza Alineada • FR: Forteresse Alignée • RU: Выровненная Крепость • JA: 整列した要塞 • KO: 정렬된 요새 • DE: Ausgerichtete Festung • TR: Hizalanmış Kale"},
+    K: {title:"KINETIC MERIT", matrix:"AR: الجدارة الحركية • EN: Kinetic Merit • ZH: 动能功绩 • ES: Mérito Cinético • FR: Mérite Cinétique • RU: Кинетическая Заслуга • JA: 運動的功績 • KO: 운동 공로 • DE: Kinetisches Verdienst • TR: Kinetik Liyakat"},
+    M: {title:"MONETARY TREASURY", matrix:"AR: الخزانة المالية • EN: Monetary Treasury • ZH: 货币宝库 • ES: Tesorería Monetaria • FR: Trésorerie Monétaire • RU: Денежная Сокровищница • JA: 通貨の宝物庫 • KO: 화폐 금고 • DE: Monetäre Schatzkammer • TR: Parasal Hazine"},
+    O: {title:"ORIGINAL COUNCIL", matrix:"AR: المجلس الأصيل • EN: Original Council • ZH: 原始议会 • ES: Consejo Original • FR: Conseil Originel • RU: Изначальный Совет • JA: 原初の評議会 • KO: 원초 의회 • DE: Ursprünglicher Rat • TR: Orijinal Konsey"},
+    S: {title:"SUPREME LIFE", matrix:"AR: الحياة السامية • EN: Supreme Life • ZH: 至高生命 • ES: Vida Suprema • FR: Vie Suprême • RU: Высшая Жизнь • JA: 至高の生命 • KO: 최고의 삶 • DE: Höchstes Leben • TR: Yüce Hayat"}
+  };
+
+  const nodes = [
+    {key:"H", angle:-Math.PI/2 - 1.05, label:"H"},
+    {key:"A", angle:-Math.PI/2 - 0.63, label:"A"},
+    {key:"K", angle:-Math.PI/2 - 0.21, label:"K"},
+    {key:"M", angle:-Math.PI/2 + 0.21, label:"M"},
+    {key:"O", angle:-Math.PI/2 + 0.63, label:"O"},
+    {key:"S", angle:-Math.PI/2 + 1.05, label:"S"}
+  ];
+
+  const langWhispers = {
+    ar: ["هل تعرف HAKMOS؟","قريبًا سيكون واقعًا لأجلك","بجواز سفرك يتحقق حلمك","هل سمعت عن HAKMOS؟","أنت في أمان هنا","HAKMOS يناديك","حلمك يقترب","هل تعرف HAKMOS؟","الثقة تبدأ من هنا","قريبًا... لأجلك"],
+    en: ["Do you know HAKMOS?","Soon it will be a reality for you","With your passport your dream comes true","Have you heard of HAKMOS?","You are safe here","HAKMOS is calling you","Your dream is closer","Do you know HAKMOS?"],
+    zh: ["你知道HAKMOS吗？","很快它将成为你的现实"],
+    es: ["¿Conoces HAKMOS?","Pronto será una realidad para ti"],
+    fr: ["Connais-tu HAKMOS ?","Bientôt ce sera une réalité pour toi"],
+    ru: ["Ты знаешь HAKMOS?","Скоро это станет реальностью для тебя"],
+    ja: ["HAKMOSを知っていますか？"],
+    ko: ["HAKMOS를 아시나요?"],
+    de: ["Kennst du HAKMOS?"],
+    pt: ["Você conhece HAKMOS?"],
+    tr: ["HAKMOS'u biliyor musun?"],
+    fa: ["آیا HAKMOS را می‌شناسی؟"]
+  };
+
+  const browserLang = (navigator.language || "en").slice(0,2).toLowerCase();
+  const userWhispers = langWhispers[browserLang] || langWhispers.en;
+  const allWhispers = Object.values(langWhispers).flat();
+  let whisperIndex = 0;
+
+  function getNextWhisper() {
+    return Math.random() < 0.82 ? userWhispers[whisperIndex % userWhispers.length] : allWhispers[Math.floor(Math.random() * allWhispers.length)];
+  }
+
+  const nodeTraits = {
+    H: {hue:160, pulse:0.85, noise:9},
+    A: {hue:200, pulse:0.72, noise:6},
+    K: {hue:35,  pulse:1.3,  noise:19},
+    M: {hue:45,  pulse:0.95, noise:8},
+    O: {hue:270, pulse:0.82, noise:14},
+    S: {hue:50,  pulse:1.42, noise:11}
+  };
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    CX = W * 0.5;
+    CY = H * 0.5;
+    initAll();
+  }
+
+  function initAll() {
+    membrane = [];
+    for (let i = 0; i < 96; i++) {
+      const a = (i / 96) * Math.PI * 2;
+      membrane.push({angle:a, baseR:Math.min(W,H)*0.215, r:Math.min(W,H)*0.215, noiseOff:Math.random()*1000, scar:0});
     }
-    function playTone(freq,dur,type='sine',vol=0.15,attack=0.08){
-        if(!audioStarted||!audioCtx)return;
-        try{
-            const osc=audioCtx.createOscillator();
-            const gain=audioCtx.createGain();
-            osc.type=type;osc.frequency.value=freq;
-            const now=audioCtx.currentTime;
-            gain.gain.setValueAtTime(0,now);
-            gain.gain.linearRampToValueAtTime(vol,now+attack);
-            gain.gain.exponentialRampToValueAtTime(0.001,now+dur);
-            osc.connect(gain);gain.connect(masterGain);
-            osc.start(now);osc.stop(now+dur+0.05);
-        }catch(e){}
+    particles = [];
+    for (let i = 0; i < 52; i++) {
+      particles.push({
+        x: CX + (Math.random()-0.5)*320,
+        y: CY + (Math.random()-0.5)*320,
+        vx:0, vy:0,
+        life: Math.random()*Math.PI*2,
+        size: Math.random()*1.5 + 0.5
+      });
     }
-    function playNodeActivate(){playTone(523.25,1.1,'sine',0.09,0.12);setTimeout(()=>playTone(659.25,0.9,'sine',0.06,0.1),90)}
-    function playProximity(){playTone(340+Math.random()*40,0.35,'triangle',0.025,0.05)}
-    function playEnergyPulse(){playTone(180+Math.random()*30,0.5,'sine',0.04,0.03)}
-    function playWhisperCue(){playTone(680,1.4,'sine',0.05,0.2);setTimeout(()=>playTone(840,1.1,'sine',0.035,0.15),120)}
-    function updateDrone(){
-        if(!audioStarted)return;
-        const baseFreq=48+(currentHue/360)*35;
-        droneOsc.frequency.setTargetAtTime(baseFreq,audioCtx.currentTime,0.45);
-        droneFilter.frequency.setTargetAtTime(140+currentNoise*6,audioCtx.currentTime,0.5);
-        droneGain.gain.setTargetAtTime(0.28+energy*0.12,audioCtx.currentTime,0.3);
+    fog = [];
+    for (let i = 0; i < 5; i++) {
+      fog.push({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        r: Math.min(W,H)*(0.34 + Math.random()*0.38),
+        vx: (Math.random()-0.5)*0.18,
+        vy: (Math.random()-0.5)*0.14,
+        opacity: 0.028 + Math.random()*0.025,
+        phase: Math.random()*Math.PI*2
+      });
     }
-    function startAudioOnInteraction(){
-        if(!audioStarted)initAudio();
-        if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});
+    scars = [];
+    ripples = [];
+  }
+
+  function noise(x, y, t) {
+    return Math.sin(x*0.7 + t*0.4) * Math.cos(y*0.6 - t*0.3) * 0.5 + Math.sin(x*1.3 - t*0.2) * 0.25;
+  }
+
+  function addRipple(x, y) {
+    if (ripples.length > 8) return;
+    ripples.push({x, y, radius:4, max:85, life:1, speed:2.5});
+  }
+
+  function update() {
+    time += 0.008;
+    energy *= 0.992;
+
+    if (activeNode && nodeTraits[activeNode.key]) {
+      const t = nodeTraits[activeNode.key];
+      targetHue = t.hue;
+      targetPulse = t.pulse;
+      targetNoise = t.noise;
+    } else {
+      targetHue = 210;
+      targetPulse = 1;
+      targetNoise = 13;
     }
+    currentHue += (targetHue - currentHue) * 0.03;
+    currentPulse += (targetPulse - currentPulse) * 0.04;
+    currentNoise += (targetNoise - currentNoise) * 0.04;
+    updateDrone();
 
-    function canVibrate(){return typeof navigator!=='undefined'&&typeof navigator.vibrate==='function'}
-    function vibrateNode(){if(canVibrate())navigator.vibrate([25,30,25])}
-    function vibrateEnergy(){if(canVibrate())navigator.vibrate(18)}
-    function vibrateWhisper(){if(canVibrate())navigator.vibrate([20,40,20,40,20])}
-
-    const hakmos={
-        H:{title:"HOLISTIC CLINIC",matrix:"AR: العيادة الشمولية • EN: Holistic Clinic • ZH: 整体诊所 • ES: Clínica Holística • FR: Clinique Holistique • RU: Холистическая Клиника • JA: ホリスティック・クリニック • KO: 전인적 클리닉 • HI: समग्र क्लिनिक • PT: Clínica Holística • DE: Ganzheitliche Klinik • TR: Bütüncül Klinik • FA: کلینیک جامع"},
-        A:{title:"ALIGNED FORTRESS",matrix:"AR: الحصن المتوافق • EN: Aligned Fortress • ZH: 对齐堡垒 • ES: Fortaleza Alineada • FR: Forteresse Alignée • RU: Выровненная Крепость • JA: 整列した要塞 • KO: 정렬된 요새 • HI: संरेखित किला • PT: Fortaleza Alinhada • DE: Ausgerichtete Festung • TR: Hizalanmış Kale • FA: دژ هم‌راستا"},
-        K:{title:"KINETIC MERIT",matrix:"AR: الجدارة الحركية • EN: Kinetic Merit • ZH: 动能功绩 • ES: Mérito Cinético • FR: Mérite Cinétique • RU: Кинетическая Заслуга • JA: 運動的功績 • KO: 운동 공로 • HI: गतिज योग्यता • PT: Mérito Cinético • DE: Kinetisches Verdienst • TR: Kinetik Liyakat • FA: شایستگی جنبشی"},
-        M:{title:"MONETARY TREASURY",matrix:"AR: الخزانة المالية • EN: Monetary Treasury • ZH: 货币宝库 • ES: Tesorería Monetaria • FR: Trésorerie Monétaire • RU: Денежная Сокровищница • JA: 通貨の宝物庫 • KO: 화폐 금고 • HI: मौद्रिक खजाना • PT: Tesouraria Monetária • DE: Monetäre Schatzkammer • TR: Parasal Hazine • FA: خزانه پولی"},
-        O:{title:"ORIGINAL COUNCIL",matrix:"AR: المجلس الأصيل • EN: Original Council • ZH: 原始议会 • ES: Consejo Original • FR: Conseil Originel • RU: Изначальный Совет • JA: 原初の評議会 • KO: 원초 의회 • HI: मूल परिषद • PT: Conselho Original • DE: Ursprünglicher Rat • TR: Orijinal Konsey • FA: شورای اصیل"},
-        S:{title:"SUPREME LIFE",matrix:"AR: الحياة السامية • EN: Supreme Life • ZH: 至高生命 • ES: Vida Suprema • FR: Vie Suprême • RU: Высшая Жизнь • JA: 至高の生命 • KO: 최고의 삶 • HI: सर्वोच्च जीवन • PT: Vida Suprema • DE: Höchstes Leben • TR: Yüce Hayat • FA: زندگی متعالی"}
-    };
-
-    const nodes=[
-        {key:"H",angle:-Math.PI/2-1.05,label:"H"},
-        {key:"A",angle:-Math.PI/2-0.63,label:"A"},
-        {key:"K",angle:-Math.PI/2-0.21,label:"K"},
-        {key:"M",angle:-Math.PI/2+0.21,label:"M"},
-        {key:"O",angle:-Math.PI/2+0.63,label:"O"},
-        {key:"S",angle:-Math.PI/2+1.05,label:"S"}
-    ];
-
-    const langWhispers={
-        ar:["قريبًا سيكون واقعًا لأجلك","بجواز سفرك يتحقق حلمك","أنت في أمان هنا","هذا المكان وُجد من أجلك","حلمك يقترب أكثر مما تتخيل","الثقة تبدأ من هنا","لكل إنسان مكانه، ولك مكانك","الفضول بوابة التحول","أنت لست وحدك في هذا الطريق","قريبًا... لأجلك أنت"],
-        en:["Soon it will be a reality for you","With your passport your dream comes true","You are safe here","This place was made for you","Your dream is closer than you think","Confidence begins here","Everyone has a place, and so do you","Curiosity is the gateway to transformation","You are not alone on this path","Soon... for you"],
-        zh:["很快它将成为你的现实","用你的护照实现你的梦想","你在这里很安全"],
-        es:["Pronto será una realidad para ti","Con tu pasaporte tu sueño se hace realidad","Estás a salvo aquí"],
-        fr:["Bientôt ce sera une réalité pour toi","Avec ton passeport ton rêve se réalise"],
-        ru:["Скоро это станет реальностью для тебя","С твоим паспортом твоя мечта сбудется"],
-        ja:["すぐにそれはあなたにとって現実になります","あなたのパスポートで夢が叶う"],
-        ko:["곧 그것이 당신에게 현실이 될 것입니다","당신의 여권으로 꿈이 이루어집니다"],
-        de:["Bald wird es für dich Wirklichkeit","Mit deinem Pass wird dein Traum wahr"],
-        pt:["Em breve será uma realidade para você","Com seu passaporte seu sonho se realiza"],
-        tr:["Yakında senin için gerçek olacak","Pasaportunla hayalin gerçekleşir"],
-        fa:["به زودی برای تو واقعیت خواهد شد","با گذرنامه‌ات رویایت محقق می‌شود"]
-    };
-
-    const browserLang=(navigator.language||"en").slice(0,2).toLowerCase();
-    const userWhispers=langWhispers[browserLang]||langWhispers.en;
-    const allWhispers=Object.values(langWhispers).flat();
-    let whisperIndex=0;
-    function getNextWhisper(){return Math.random()<0.78?userWhispers[whisperIndex%userWhispers.length]:allWhispers[Math.floor(Math.random()*allWhispers.length)]}
-
-    const nodeTraits={
-        H:{hue:160,pulse:0.85,noise:9},
-        A:{hue:200,pulse:0.7,noise:6},
-        K:{hue:35,pulse:1.35,noise:22},
-        M:{hue:45,pulse:0.95,noise:8},
-        O:{hue:270,pulse:0.8,noise:16},
-        S:{hue:50,pulse:1.5,noise:12}
-    };
-
-    function resize(){
-        W=canvas.width=window.innerWidth;
-        H=canvas.height=window.innerHeight;
-        CX=W*0.5;CY=H*0.5;
-        initMembrane();
-        initFog();
+    // Fog
+    for (const f of fog) {
+      f.x += f.vx + Math.sin(time*0.28 + f.phase)*0.11;
+      f.y += f.vy + Math.cos(time*0.23 + f.phase)*0.09;
+      if (f.x < -f.r) f.x = W + f.r;
+      if (f.x > W + f.r) f.x = -f.r;
+      if (f.y < -f.r) f.y = H + f.r;
+      if (f.y > H + f.r) f.y = -f.r;
     }
 
-    function initMembrane(){
-        membrane=[];
-        const count=96; // أقل من السابق
-        for(let i=0;i<count;i++){
-            const angle=(i/count)*Math.PI*2;
-            membrane.push({
-                angle,
-                baseR:Math.min(W,H)*0.21,
-                r:Math.min(W,H)*0.21,
-                noiseOff:Math.random()*1000,
-                scar:0
-            });
-        }
-        particles=[];
-        for(let i=0;i<55;i++){ // أقل جسيمات
-            particles.push({
-                x:CX+(Math.random()-0.5)*360,
-                y:CY+(Math.random()-0.5)*360,
-                vx:0,vy:0,
-                life:Math.random()*Math.PI*2,
-                size:Math.random()*1.6+0.5,
-                speed:0.35+Math.random()*0.45
-            });
-        }
-    }
+    // Membrane
+    for (const m of membrane) {
+      const px = CX + Math.cos(m.angle) * m.r;
+      const py = CY + Math.sin(m.angle) * m.r;
+      let targetR = m.baseR * currentPulse;
+      targetR += noise(m.angle*3, m.noiseOff, time) * currentNoise;
+      targetR += Math.sin(time*0.9 + m.angle*2) * 5.5;
 
-    function initFog(){
-        fogLayers=[];
-        for(let i=0;i<5;i++){ // 5 طبقات فقط
-            fogLayers.push({
-                x:Math.random()*W,
-                y:Math.random()*H,
-                radius:Math.min(W,H)*(0.38+Math.random()*0.4),
-                vx:(Math.random()-0.5)*0.22,
-                vy:(Math.random()-0.5)*0.16,
-                opacity:0.028+Math.random()*0.03,
-                phase:Math.random()*Math.PI*2,
-                speed:0.14+Math.random()*0.22
-            });
-        }
-    }
-
-    function noise(x,y,t){
-        return Math.sin(x*0.7+t*0.4)*Math.cos(y*0.6-t*0.3)*0.5 + Math.sin(x*1.3-t*0.2)*0.25;
-    }
-
-    function addRipple(x,y,force){
-        if(ripples.length>12)return; // حد أقصى
-        ripples.push({x,y,radius:5,max:70+force*35,life:1,speed:2.4+force});
-    }
-
-    function update(){
-        time+=0.0085;
-        energy*=0.991;
-        const idle=performance.now()-mouse.lastMove>2400;
-
-        if(activeNode&&nodeTraits[activeNode.key]){
-            const t=nodeTraits[activeNode.key];
-            targetHue=t.hue;targetPulse=t.pulse;targetNoise=t.noise;
-        }else{
-            targetHue=210;targetPulse=1;targetNoise=14;
-        }
-        currentHue+=(targetHue-currentHue)*0.03;
-        currentPulse+=(targetPulse-currentPulse)*0.04;
-        currentNoise+=(targetNoise-currentNoise)*0.04;
-        updateDrone();
-
-        // ضباب
-        for(const f of fogLayers){
-            f.x+=f.vx+Math.sin(time*f.speed+f.phase)*0.13;
-            f.y+=f.vy+Math.cos(time*f.speed*0.8+f.phase)*0.11;
-            if(f.x<-f.radius)f.x=W+f.radius;
-            if(f.x>W+f.radius)f.x=-f.radius;
-            if(f.y<-f.radius)f.y=H+f.radius;
-            if(f.y>H+f.radius)f.y=-f.radius;
-        }
-
-        // غشاء
-        for(let i=0;i<membrane.length;i++){
-            const m=membrane[i];
-            const px=CX+Math.cos(m.angle)*m.r;
-            const py=CY+Math.sin(m.angle)*m.r;
-            let targetR=m.baseR*currentPulse;
-            targetR+=noise(m.angle*3,m.noiseOff,time)*currentNoise;
-            targetR+=Math.sin(time*0.9+m.angle*2)*(4.8+currentNoise*0.17);
-
-            if(mouse.active){
-                const dist=Math.hypot(mouse.x-px,mouse.y-py);
-                if(dist<230){
-                    const force=(1-dist/230)*34;
-                    targetR-=force*0.55;
-                    energy+=force*0.0013;
-                    if(Math.random()<0.025&&energy>0.35){
-                        m.scar=Math.min(1,m.scar+0.03);
-                        if(scars.length<55&&Math.random()<0.28){
-                            scars.push({x:px,y:py,life:1,size:Math.random()*11+4,angle:Math.random()*Math.PI*2});
-                            playEnergyPulse();
-                            vibrateEnergy();
-                            if(Math.random()<0.4)addRipple(px,py,force/40);
-                        }
-                    }
-                }
+      if (mouse.active) {
+        const dist = Math.hypot(mouse.x - px, mouse.y - py);
+        if (dist < 210) {
+          const force = (1 - dist/210) * 30;
+          targetR -= force * 0.53;
+          energy += force * 0.00115;
+          if (Math.random() < 0.022 && energy > 0.28) {
+            m.scar = Math.min(1, m.scar + 0.028);
+            if (scars.length < 45 && Math.random() < 0.28) {
+              scars.push({x:px, y:py, life:1, size:Math.random()*9+4, angle:Math.random()*Math.PI*2});
+              playEnergy();
+              vibrateEnergy();
+              if (Math.random() < 0.35) addRipple(px, py);
             }
-            if(idle)targetR+=Math.sin(time*0.4+m.angle*5)*7.5;
-            m.r+=(targetR-m.r)*0.045;
-            m.scar*=0.9987;
+          }
         }
-
-        // تموجات
-        for(let i=ripples.length-1;i>=0;i--){
-            const r=ripples[i];
-            r.radius+=r.speed;
-            r.life-=0.02;
-            if(r.life<=0||r.radius>r.max)ripples.splice(i,1);
-        }
-
-        // عقد
-        activeNode=null;
-        const orbitR=Math.min(W,H)*0.37;
-        let closestDist=9999;
-        for(const node of nodes){
-            const nx=CX+Math.cos(node.angle+time*0.024)*orbitR;
-            const ny=CY+Math.sin(node.angle+time*0.024)*orbitR;
-            node.x=nx;node.y=ny;
-            const dist=Math.hypot(mouse.x-nx,mouse.y-ny);
-            if(mouse.active&&dist<48){activeNode=node;energy+=0.018}
-            if(dist<closestDist)closestDist=dist;
-        }
-
-        if(activeNode&&activeNode.key!==prevActiveKey){
-            playNodeActivate();
-            vibrateNode();
-            addRipple(activeNode.x,activeNode.y,1.1);
-            prevActiveKey=activeNode.key;
-        }else if(!activeNode)prevActiveKey=null;
-
-        if(mouse.active&&closestDist<70&&closestDist>48&&Math.random()<0.06)playProximity();
-
-        if(activeNode){
-            const data=hakmos[activeNode.key];
-            conceptTitle.textContent=data.title;
-            conceptMatrix.textContent=data.matrix;
-            conceptEl.style.opacity="1";
-        }else conceptEl.style.opacity="0";
-
-        // جسيمات (محسّنة)
-        for(const p of particles){
-            const dx=CX-p.x,dy=CY-p.y;
-            const dist=Math.hypot(dx,dy)||1;
-            p.vx+=(dx/dist)*0.015*p.speed;
-            p.vy+=(dy/dist)*0.015*p.speed;
-            if(mouse.active){
-                const mdist=Math.hypot(mouse.x-p.x,mouse.y-p.y)||1;
-                if(mdist<180){
-                    p.vx-=((mouse.x-p.x)/mdist)*0.12;
-                    p.vy-=((mouse.y-p.y)/mdist)*0.12;
-                }
-            }
-            p.vx*=0.96;p.vy*=0.96;
-            p.x+=p.vx;p.y+=p.vy;
-            p.life+=0.024;
-        }
-
-        for(let i=scars.length-1;i>=0;i--){
-            scars[i].life*=0.997;
-            if(scars[i].life<0.025)scars.splice(i,1);
-        }
-
-        if(energy>1.45&&performance.now()-lastWhisper>7500){
-            whisperEl.textContent=getNextWhisper();
-            whisperEl.style.opacity="0.72";
-            playWhisperCue();
-            vibrateWhisper();
-            whisperIndex++;
-            lastWhisper=performance.now();
-            setTimeout(()=>whisperEl.style.opacity="0",4800);
-        }
+      }
+      m.r += (targetR - m.r) * 0.045;
+      m.scar *= 0.9986;
     }
 
-    function draw(){
-        // خلفية
-        ctx.fillStyle=`hsla(${currentHue},40%,8%,1)`;
-        ctx.fillRect(0,0,W,H);
+    // Ripples
+    for (let i = ripples.length-1; i >= 0; i--) {
+      const r = ripples[i];
+      r.radius += r.speed;
+      r.life -= 0.019;
+      if (r.life <= 0 || r.radius > r.max) ripples.splice(i, 1);
+    }
 
-        const bg=ctx.createRadialGradient(CX,CY,0,CX,CY,Math.max(W,H)*0.8);
-        bg.addColorStop(0,`hsla(\( {currentHue},45%,12%, \){0.4+energy*0.05})`);
-        bg.addColorStop(0.6,`hsla(${currentHue},30%,7%,0.7)`);
-        bg.addColorStop(1,"#02030a");
-        ctx.fillStyle=bg;
-        ctx.fillRect(0,0,W,H);
+    // Nodes
+    activeNode = null;
+    const orbitR = Math.min(W, H) * 0.355;
+    let closest = 9999;
 
-        // ضباب
-        for(const f of fogLayers){
-            const g=ctx.createRadialGradient(f.x,f.y,0,f.x,f.y,f.radius);
-            const a=f.opacity*(0.9+energy*0.2);
-            g.addColorStop(0,`hsla(\( {currentHue},40%,55%, \){a})`);
-            g.addColorStop(0.5,`hsla(\( {currentHue},35%,40%, \){a*0.4})`);
-            g.addColorStop(1,`hsla(${currentHue},30%,25%,0)`);
-            ctx.beginPath();
-            ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
-            ctx.fillStyle=g;
-            ctx.fill();
+    for (const node of nodes) {
+      const a = node.angle + time * 0.021;
+      node.x = CX + Math.cos(a) * orbitR;
+      node.y = CY + Math.sin(a) * orbitR;
+      const dist = Math.hypot(mouse.x - node.x, mouse.y - node.y);
+      if (mouse.active && dist < 44) {
+        activeNode = node;
+        energy += 0.015;
+      }
+      if (dist < closest) closest = dist;
+    }
+
+    if (activeNode && activeNode.key !== prevActiveKey) {
+      playNodeActivate();
+      vibrateNode();
+      addRipple(activeNode.x, activeNode.y);
+      prevActiveKey = activeNode.key;
+    } else if (!activeNode) {
+      prevActiveKey = null;
+    }
+
+    if (mouse.active && closest < 68 && closest > 44 && Math.random() < 0.055) playProximity();
+
+    if (activeNode) {
+      const data = hakmos[activeNode.key];
+      conceptTitle.textContent = data.title;
+      conceptMatrix.textContent = data.matrix;
+      conceptEl.style.opacity = "1";
+    } else {
+      conceptEl.style.opacity = "0";
+    }
+
+    // Particles
+    for (const p of particles) {
+      const dx = CX - p.x, dy = CY - p.y;
+      const dist = Math.hypot(dx, dy) || 1;
+      p.vx += (dx / dist) * 0.013;
+      p.vy += (dy / dist) * 0.013;
+      if (mouse.active) {
+        const md = Math.hypot(mouse.x - p.x, mouse.y - p.y) || 1;
+        if (md < 160) {
+          p.vx -= ((mouse.x - p.x) / md) * 0.1;
+          p.vy -= ((mouse.y - p.y) / md) * 0.1;
         }
+      }
+      p.vx *= 0.96;
+      p.vy *= 0.96;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life += 0.02;
+    }
 
-        // تموجات
-        for(const r of ripples){
-            ctx.beginPath();
-            ctx.arc(r.x,r.y,r.radius,0,Math.PI*2);
-            ctx.strokeStyle=`hsla(\( {currentHue},70%,70%, \){r.life*0.2})`;
-            ctx.lineWidth=1.4*r.life;
-            ctx.stroke();
-        }
+    for (let i = scars.length-1; i >= 0; i--) {
+      scars[i].life *= 0.9968;
+      if (scars[i].life < 0.03) scars.splice(i, 1);
+    }
 
-        // الغشاء (3 طبقات فقط)
-        for(let layer=2;layer>=0;layer--){
-            ctx.beginPath();
-            for(let i=0;i<=membrane.length;i++){
-                const m=membrane[i%membrane.length];
-                const breathe=Math.sin(time*1.1+m.angle*3+layer)*(3.2-layer*0.7);
-                const r=m.r-layer*6+breathe;
-                const x=CX+Math.cos(m.angle)*r;
-                const y=CY+Math.sin(m.angle)*r;
-                i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-            }
-            ctx.closePath();
-            const alpha=0.045+(2-layer)*0.03+energy*0.02;
-            ctx.fillStyle=`hsla(\( {currentHue+layer*4}, \){50+layer*5}%,\( {42+layer*6}%, \){alpha})`;
-            ctx.fill();
-            ctx.strokeStyle=`hsla(\( {currentHue},65%,75%, \){0.03+energy*0.03})`;
-            ctx.lineWidth=1.1;
-            ctx.stroke();
-        }
+    // Whisper
+    if (energy > 1.25 && performance.now() - lastWhisper > 7000) {
+      whisperEl.textContent = getNextWhisper();
+      whisperEl.style.opacity = "0.7";
+      playWhisper();
+      vibrateWhisper();
+      whisperIndex++;
+      lastWhisper = performance.now();
+      setTimeout(() => whisperEl.style.opacity = "0", 4500);
+    }
+  }
 
-        // أشعة
-        if(activeNode){
-            const angle=Math.atan2(activeNode.y-CY,activeNode.x-CX);
-            for(let i=0;i<3;i++){
-                const spread=(i-1)*0.09;
-                const len=Math.min(W,H)*0.32;
-                ctx.beginPath();
-                ctx.moveTo(CX,CY);
-                ctx.lineTo(CX+Math.cos(angle+spread)*len,CY+Math.sin(angle+spread)*len);
-                ctx.strokeStyle=`hsla(\( {currentHue},80%,70%, \){0.045-Math.abs(i-1)*0.012})`;
-                ctx.lineWidth=5-Math.abs(i-1)*1.5;
-                ctx.stroke();
-            }
-        }
+  function draw() {
+    ctx.fillStyle = "#03040a";
+    ctx.fillRect(0, 0, W, H);
 
-        // النواة
-        const corePulse=1+Math.sin(time*1.3)*0.07+energy*0.045;
-        const coreG=ctx.createRadialGradient(CX,CY,0,CX,CY,78*corePulse);
-        coreG.addColorStop(0,`hsla(\( {currentHue},80%,80%, \){0.17+energy*0.09})`);
-        coreG.addColorStop(0.35,`hsla(\( {currentHue},70%,60%, \){0.08+energy*0.04})`);
-        coreG.addColorStop(1,`hsla(${currentHue},40%,25%,0)`);
+    const bg = ctx.createRadialGradient(CX, CY, 0, CX, CY, Math.max(W, H)*0.8);
+    bg.addColorStop(0, `hsla(\( {currentHue},40%,11%, \){0.32 + energy*0.05})`);
+    bg.addColorStop(0.55, "rgba(4,8,18,0.87)");
+    bg.addColorStop(1, "#03040a");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Fog
+    for (const f of fog) {
+      const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r);
+      const a = f.opacity * (0.88 + energy*0.18);
+      g.addColorStop(0, `hsla(\( {currentHue},42%,52%, \){a})`);
+      g.addColorStop(0.5, `hsla(\( {currentHue},35%,38%, \){a*0.4})`);
+      g.addColorStop(1, `hsla(${currentHue},30%,22%,0)`);
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+      ctx.fillStyle = g;
+      ctx.fill();
+    }
+
+    // Ripples
+    for (const r of ripples) {
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, r.radius, 0, Math.PI*2);
+      ctx.strokeStyle = `hsla(\( {currentHue},70%,70%, \){r.life*0.18})`;
+      ctx.lineWidth = 1.4 * r.life;
+      ctx.stroke();
+    }
+
+    // Membrane
+    for (let layer = 2; layer >= 0; layer--) {
+      ctx.beginPath();
+      for (let i = 0; i <= membrane.length; i++) {
+        const m = membrane[i % membrane.length];
+        const breathe = Math.sin(time*1.1 + m.angle*3 + layer) * (2.8 - layer*0.55);
+        const r = m.r - layer*5.8 + breathe;
+        const x = CX + Math.cos(m.angle) * r;
+        const y = CY + Math.sin(m.angle) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      const alpha = 0.048 + (2-layer)*0.028 + energy*0.018;
+      ctx.fillStyle = `hsla(\( {currentHue + layer*3}, \){48+layer*5}%,\( {42+layer*5}%, \){alpha})`;
+      ctx.fill();
+      ctx.strokeStyle = `hsla(\( {currentHue},65%,75%, \){0.028 + energy*0.028})`;
+      ctx.lineWidth = 1.05;
+      ctx.stroke();
+    }
+
+    // Rays
+    if (activeNode) {
+      const angle = Math.atan2(activeNode.y - CY, activeNode.x - CX);
+      for (let i = 0; i < 3; i++) {
+        const spread = (i-1) * 0.085;
+        const len = Math.min(W, H) * 0.3;
         ctx.beginPath();
-        ctx.arc(CX,CY,78*corePulse,0,Math.PI*2);
-        ctx.fillStyle=coreG;
+        ctx.moveTo(CX, CY);
+        ctx.lineTo(CX + Math.cos(angle + spread)*len, CY + Math.sin(angle + spread)*len);
+        ctx.strokeStyle = `hsla(\( {currentHue},80%,70%, \){0.038 - Math.abs(i-1)*0.01})`;
+        ctx.lineWidth = 4.5 - Math.abs(i-1)*1.2;
+        ctx.stroke();
+      }
+    }
+
+    // Core
+    const corePulse = 1 + Math.sin(time*1.28)*0.065 + energy*0.038;
+    const coreG = ctx.createRadialGradient(CX, CY, 0, CX, CY, 72*corePulse);
+    coreG.addColorStop(0, `hsla(\( {currentHue},80%,80%, \){0.15 + energy*0.08})`);
+    coreG.addColorStop(0.4, `hsla(\( {currentHue},65%,55%, \){0.07 + energy*0.03})`);
+    coreG.addColorStop(1, `hsla(${currentHue},40%,25%,0)`);
+    ctx.beginPath();
+    ctx.arc(CX, CY, 72*corePulse, 0, Math.PI*2);
+    ctx.fillStyle = coreG;
+    ctx.fill();
+
+    // ===== HAKMOS Brand on Chest =====
+    const brandSize = Math.min(W, H) * 0.045 * (0.82 + Math.sin(time*1.4)*0.06 + energy*0.04);
+    ctx.save();
+    ctx.font = `900 ${brandSize}px Orbitron`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.shadowColor = `hsla(${currentHue},90%,70%,0.55)`;
+    ctx.shadowBlur = 18;
+    ctx.fillStyle = `hsla(${currentHue},90%,88%,0.92)`;
+    ctx.fillText("HAKMOS", CX, CY);
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "rgba(255,215,120,0.5)";
+    ctx.fillStyle = "rgba(255,235,170,0.9)";
+    ctx.fillText("HAKMOS", CX, CY);
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "rgba(255,255,255,0.95)";
+    ctx.fillText("HAKMOS", CX, CY);
+    ctx.restore();
+
+    // Particles network (limited)
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < particles.length; i++) {
+      const p1 = particles[i];
+      for (let j = i+1; j < Math.min(i+5, particles.length); j++) {
+        const p2 = particles[j];
+        const d = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+        if (d < 75) {
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `hsla(\( {currentHue},60%,70%, \){(1-d/75)*0.09})`;
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.fillStyle = `hsla(\( {currentHue},65%,75%, \){0.14 + Math.sin(p.life)*0.07})`;
+      ctx.fill();
+    }
+
+    // Scars
+    for (const s of scars) {
+      ctx.beginPath();
+      ctx.ellipse(s.x, s.y, s.size*s.life, s.size*0.34*s.life, s.angle, 0, Math.PI*2);
+      ctx.fillStyle = `hsla(\( {currentHue},60%,70%, \){s.life*0.16})`;
+      ctx.fill();
+    }
+
+    for (const m of membrane) {
+      if (m.scar > 0.07) {
+        const x = CX + Math.cos(m.angle)*m.r;
+        const y = CY + Math.sin(m.angle)*m.r;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.4 + m.scar*2.6, 0, Math.PI*2);
+        ctx.fillStyle = `hsla(\( {currentHue},75%,80%, \){m.scar*0.38})`;
         ctx.fill();
-
-        // شبكة الجسيمات (محدودة)
-        ctx.lineWidth=0.55;
-        for(let i=0;i<particles.length;i++){
-            const p1=particles[i];
-            for(let j=i+1;j<Math.min(i+8,particles.length);j++){ // ربط محدود جداً
-                const p2=particles[j];
-                const d=Math.hypot(p1.x-p2.x,p1.y-p2.y);
-                if(d<85){
-                    ctx.beginPath();
-                    ctx.moveTo(p1.x,p1.y);
-                    ctx.lineTo(p2.x,p2.y);
-                    ctx.strokeStyle=`hsla(\( {currentHue},60%,70%, \){(1-d/85)*0.11})`;
-                    ctx.stroke();
-                }
-            }
-        }
-
-        // جسيمات
-        for(const p of particles){
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-            ctx.fillStyle=`hsla(\( {currentHue},65%,75%, \){0.15+Math.sin(p.life)*0.09})`;
-            ctx.fill();
-        }
-
-        // ندوب
-        for(const s of scars){
-            ctx.beginPath();
-            ctx.ellipse(s.x,s.y,s.size*s.life,s.size*0.36*s.life,s.angle,0,Math.PI*2);
-            ctx.fillStyle=`hsla(\( {currentHue},60%,70%, \){s.life*0.18})`;
-            ctx.fill();
-        }
-
-        // نقاط الندوب على الغشاء
-        for(const m of membrane){
-            if(m.scar>0.06){
-                const x=CX+Math.cos(m.angle)*m.r;
-                const y=CY+Math.sin(m.angle)*m.r;
-                ctx.beginPath();
-                ctx.arc(x,y,1.6+m.scar*3,0,Math.PI*2);
-                ctx.fillStyle=`hsla(\( {currentHue},75%,82%, \){m.scar*0.4})`;
-                ctx.fill();
-            }
-        }
-
-        // العقد
-        for(const node of nodes){
-            const isActive=activeNode&&activeNode.key===node.key;
-            const pulse=1+Math.sin(time*2.1+node.angle)*0.09;
-            const radius=(isActive?15:10.5)*pulse;
-
-            const ng=ctx.createRadialGradient(node.x,node.y,0,node.x,node.y,radius*3);
-            ng.addColorStop(0,isActive?`hsla(\( {currentHue},75%,70%,0.32)`:`hsla( \){currentHue},50%,60%,0.11)`);
-            ng.addColorStop(1,`hsla(${currentHue},40%,40%,0)`);
-            ctx.beginPath();
-            ctx.arc(node.x,node.y,radius*3,0,Math.PI*2);
-            ctx.fillStyle=ng;
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(node.x,node.y,radius,0,Math.PI*2);
-            ctx.fillStyle=isActive?`hsla(\( {currentHue},80%,78%,0.9)`:`hsla( \){currentHue},55%,70%,0.53)`;
-            ctx.fill();
-
-            ctx.font=`600 ${isActive?12:10.5}px Orbitron`;
-            ctx.fillStyle=isActive?"rgba(12,20,40,0.9)":"rgba(8,16,35,0.82)";
-            ctx.textAlign="center";
-            ctx.textBaseline="middle";
-            ctx.fillText(node.label,node.x,node.y+1);
-        }
-
-        // حقل المؤشر
-        if(mouse.active){
-            const fg=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,160);
-            fg.addColorStop(0,`hsla(${currentHue},70%,75%,0.06)`);
-            fg.addColorStop(1,`hsla(${currentHue},40%,30%,0)`);
-            ctx.beginPath();
-            ctx.arc(mouse.x,mouse.y,160,0,Math.PI*2);
-            ctx.fillStyle=fg;
-            ctx.fill();
-        }
-
-        // vignette خفيف
-        const vig=ctx.createRadialGradient(CX,CY,Math.min(W,H)*0.3,CX,CY,Math.max(W,H)*0.7);
-        vig.addColorStop(0,"rgba(0,0,0,0)");
-        vig.addColorStop(1,"rgba(0,0,0,0.4)");
-        ctx.fillStyle=vig;
-        ctx.fillRect(0,0,W,H);
+      }
     }
 
-    function loop(timestamp){
-        update();
-        draw();
-        requestAnimationFrame(loop);
+    // Nodes
+    for (const node of nodes) {
+      const isActive = activeNode && activeNode.key === node.key;
+      const pulse = 1 + Math.sin(time*2 + node.angle)*0.075;
+      const radius = (isActive ? 13.5 : 9.8) * pulse;
+
+      const ng = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, radius*2.7);
+      ng.addColorStop(0, isActive ? `hsla(\( {currentHue},75%,70%,0.28)` : `hsla( \){currentHue},50%,60%,0.09)`);
+      ng.addColorStop(1, `hsla(${currentHue},40%,40%,0)`);
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, radius*2.7, 0, Math.PI*2);
+      ctx.fillStyle = ng;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, radius, 0, Math.PI*2);
+      ctx.fillStyle = isActive ? `hsla(\( {currentHue},80%,78%,0.9)` : `hsla( \){currentHue},55%,70%,0.48)`;
+      ctx.fill();
+
+      ctx.font = `600 ${isActive ? 11.5 : 9.5}px Orbitron`;
+      ctx.fillStyle = isActive ? "rgba(15,25,45,0.9)" : "rgba(10,18,35,0.8)";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(node.label, node.x, node.y + 1);
     }
 
-    window.addEventListener('resize',resize);
-    window.addEventListener('mousemove',e=>{
-        startAudioOnInteraction();
-        mouse.x=e.clientX;mouse.y=e.clientY;
-        mouse.active=true;mouse.lastMove=performance.now();
-        dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
-        energy+=0.01;
-    });
-    window.addEventListener('mouseleave',()=>mouse.active=false);
-    window.addEventListener('touchmove',e=>{
-        e.preventDefault();
-        startAudioOnInteraction();
-        const t=e.touches[0];
-        mouse.x=t.clientX;mouse.y=t.clientY;
-        mouse.active=true;mouse.lastMove=performance.now();
-        dot.style.left=t.clientX+'px';dot.style.top=t.clientY+'px';
-        energy+=0.015;
-    },{passive:false});
-    window.addEventListener('touchstart',e=>{
-        startAudioOnInteraction();
-        const t=e.touches[0];
-        mouse.x=t.clientX;mouse.y=t.clientY;
-        mouse.active=true;mouse.lastMove=performance.now();
-        energy+=0.035;
-    });
-    window.addEventListener('touchend',()=>mouse.active=false);
+    // Cursor field
+    if (mouse.active) {
+      const fg = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 145);
+      fg.addColorStop(0, `hsla(${currentHue},70%,75%,0.055)`);
+      fg.addColorStop(1, `hsla(${currentHue},40%,30%,0)`);
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 145, 0, Math.PI*2);
+      ctx.fillStyle = fg;
+      ctx.fill();
+    }
+  }
 
-    resize();
+  function loop() {
+    update();
+    draw();
     requestAnimationFrame(loop);
-    document.body.style.cursor='none';
+  }
+
+  // Events
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => {
+    startAudio();
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    mouse.active = true; mouse.lastMove = performance.now();
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    energy += 0.008;
+  });
+  window.addEventListener('mouseleave', () => mouse.active = false);
+
+  window.addEventListener('touchmove', e => {
+    e.preventDefault();
+    startAudio();
+    const t = e.touches[0];
+    mouse.x = t.clientX; mouse.y = t.clientY;
+    mouse.active = true; mouse.lastMove = performance.now();
+    dot.style.left = t.clientX + 'px';
+    dot.style.top = t.clientY + 'px';
+    energy += 0.013;
+  }, {passive: false});
+
+  window.addEventListener('touchstart', e => {
+    startAudio();
+    const t = e.touches[0];
+    mouse.x = t.clientX; mouse.y = t.clientY;
+    mouse.active = true; mouse.lastMove = performance.now();
+    energy += 0.028;
+  });
+  window.addEventListener('touchend', () => mouse.active = false);
+
+  // Start
+  resize();
+  loop();
+  document.body.style.cursor = 'none';
 })();
 </script>
 </body>
