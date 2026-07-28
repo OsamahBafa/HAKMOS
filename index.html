@@ -3,66 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>HAKMOS | Cyber Sovereign Protocol v133</title>
-    
+    <title>HAKMOS | Quantum Sovereign Node</title>
+
     <!-- PWA Primary Meta Tags -->
-    <meta name="theme-color" content="#010102">
+    <meta name="theme-color" content="#030712">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="HAKMOS">
-    <meta name="description" content="Cyber Sovereign Protocol - HAKMOS PWA">
-    
-    <!-- PWA Web App Manifest (Data URI) -->
-    <link rel="manifest" href='data:application/manifest+json,{"name":"HAKMOS Sovereign Protocol","short_name":"HAKMOS","start_url":".","display":"standalone","background_color":"#010102","theme_color":"#010102","orientation":"portrait-primary","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><rect width=\"512\" height=\"512\" fill=\"%23010102\"/><text x=\"50%\" y=\"55%\" font-family=\"Orbitron,sans-serif\" font-size=\"220\" font-weight=\"900\" fill=\"%23E5A93B\" text-anchor=\"middle\" dominant-baseline=\"middle\">H</text></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
+    <meta name="apple-mobile-web-app-title" content="HAKMOS Node">
 
-    <!-- الخطوط -->
+    <!-- PWA Web App Manifest -->
+    <link rel="manifest" href='data:application/manifest+json,{"name":"HAKMOS Sovereign Node","short_name":"HAKMOS","start_url":".","display":"standalone","background_color":"#030712","theme_color":"#030712","orientation":"portrait-primary","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><rect width=\"512\" height=\"512\" fill=\"%23030712\"/><circle cx=\"256\" cy=\"256\" r=\"180\" stroke=\"%23F59E0B\" stroke-width=\"12\" fill=\"none\"/><text x=\"50%\" y=\"55%\" font-family=\"sans-serif\" font-size=\"200\" font-weight=\"900\" fill=\"%23F59E0B\" text-anchor=\"middle\" dominant-baseline=\"middle\">H</text></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Space+Grotesk:wght@400;600;700;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-void: #010102;
-            --cyber-gold: #E5A93B;
-            --cyber-gold-glow: rgba(229, 169, 59, 0.25);
-            --text-pure: #FFFFFF;
-            --text-dim: #6E6E73;
-            --panel-border: rgba(229, 169, 59, 0.15);
-            --font-ar: 'Cairo', sans-serif;
-            --font-en: 'Orbitron', sans-serif;
+            --bg-deep: #030712;
+            --quantum-gold: #F59E0B;
+            --quantum-cyan: #06B6D4;
+            --glass-bg: rgba(15, 23, 42, 0.65);
+            --glass-border: rgba(245, 158, 11, 0.25);
+            --text-main: #F9FAFB;
+            --font-ar: 'Tajawal', sans-serif;
+            --font-en: 'Space Grotesk', sans-serif;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            user-select: none; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-        
+
         html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: var(--bg-void); 
-            color: var(--text-pure); 
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             font-family: var(--font-ar);
         }
 
         body {
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            background-image: 
-                linear-gradient(to right, rgba(229, 169, 59, 0.015) 1px, transparent 1px), 
-                linear-gradient(to bottom, rgba(229, 169, 59, 0.015) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transition: font-family 0.3s ease;
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
-        #particleCanvas {
+        #quantumCanvas {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
@@ -70,203 +64,229 @@
             pointer-events: none;
         }
 
-        .cursor-glow {
+        .aura-glow {
             position: absolute;
-            width: 450px; height: 450px;
-            background: radial-gradient(circle, rgba(229, 169, 59, 0.06) 0%, rgba(0,0,0,0) 70%);
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.09) 0%, rgba(245, 158, 11, 0.06) 40%, transparent 70%);
             transform: translate(-50%, -50%);
             z-index: 1;
             pointer-events: none;
+            transition: width 0.4s ease, height 0.4s ease;
         }
 
-        /* حاوية متوازنة الابعاد والمقاسات */
-        .cinematic-container { 
-            position: relative; 
-            z-index: 2; 
-            width: 100%; 
-            max-width: 760px; 
-            max-height: 90vh;
-            padding: 24px; 
-            text-align: center; 
+        .node-card {
+            position: relative;
+            z-index: 2;
+            width: 92%;
+            max-width: 720px;
+            max-height: 88vh;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: clamp(24px, 5vw, 44px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 
+                0 30px 70px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-        }
-        
-        .brand-header {
-            transition: transform 0.5s ease;
-            margin-bottom: 24px;
-            flex-shrink: 0;
+            text-align: center;
         }
 
-        .main-logo {
-            font-family: var(--font-en); 
-            font-weight: 900; 
-            font-size: clamp(2.2rem, 6vw, 3.8rem); 
-            letter-spacing: clamp(6px, 2vw, 16px); 
-            text-indent: clamp(6px, 2vw, 16px); 
+        .badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border-radius: 50px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--quantum-gold);
+            font-size: 0.75rem;
+            font-family: var(--font-en);
+            letter-spacing: 2px;
             text-transform: uppercase;
-            background: linear-gradient(180deg, #FFFFFF 30%, var(--cyber-gold) 100%); 
-            -webkit-background-clip: text; 
+            margin-bottom: 22px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--quantum-cyan);
+            box-shadow: 0 0 10px var(--quantum-cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        .node-title {
+            font-family: var(--font-en);
+            font-weight: 900;
+            font-size: clamp(2.8rem, 8vw, 4.2rem);
+            letter-spacing: 10px;
+            text-indent: 10px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--quantum-gold) 60%, var(--quantum-cyan) 100%);
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(229, 169, 59, 0.2)); 
+            margin-bottom: 14px;
+            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
         }
 
-        .manifest-output {
+        .manifesto-box {
             width: 100%;
-            max-width: 600px;
-            max-height: 40vh; 
-            overflow-y: auto; 
-            font-size: clamp(0.85rem, 2.5vw, 0.98rem); 
-            text-align: justify; 
-            line-height: 1.75;
-            color: rgba(255, 255, 255, 0.88); 
-            padding: 16px 20px; 
-            margin-bottom: 24px; 
-            display: none;
-            border-inline-start: 3px solid var(--cyber-gold); 
-            background: rgba(255, 255, 255, 0.008); 
-            border-radius: 4px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            font-size: clamp(0.9rem, 2.3vw, 1.02rem);
+            line-height: 1.85;
+            color: rgba(249, 250, 251, 0.95);
+            padding: 18px 20px;
+            margin-bottom: 28px;
+            background: rgba(3, 7, 18, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            text-align: justify;
         }
-        
-        .manifest-output::-webkit-scrollbar { width: 4px; }
-        .manifest-output::-webkit-scrollbar-thumb { background: var(--cyber-gold); border-radius: 2px; }
 
-        .console-box { 
-            width: 100%; 
-            max-width: 560px; 
-            margin: 0 auto 20px auto; 
-            flex-shrink: 0;
+        .keys-container {
+            display: flex;
+            justify-content: center;
+            gap: clamp(8px, 2.2vw, 16px);
+            width: 100%;
+            margin-bottom: 24px;
+            direction: ltr;
         }
-        
-        .console-input {
-            width: 100%; 
-            background: rgba(255, 255, 255, 0.015); 
-            border: 1px solid var(--panel-border);
-            border-radius: 8px; 
-            padding: 16px 20px; 
-            color: var(--text-pure); 
+
+        .key-btn {
+            position: relative;
+            width: clamp(44px, 11vw, 68px);
+            height: clamp(52px, 13vw, 76px);
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .key-btn span {
+            font-family: var(--font-en);
+            font-weight: 900;
+            font-size: clamp(1.4rem, 4vw, 2.1rem);
+            background: linear-gradient(180deg, #FFFFFF 0%, var(--quantum-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .key-btn:hover, .key-btn.active {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--quantum-cyan);
+            background: linear-gradient(145deg, rgba(6, 182, 212, 0.2), rgba(15, 23, 42, 0.95));
+            box-shadow: 0 12px 28px rgba(6, 182, 212, 0.3), inset 0 0 12px rgba(6, 182, 212, 0.2);
+        }
+
+        .key-btn:hover span, .key-btn.active span {
+            background: linear-gradient(180deg, #FFFFFF 0%, var(--quantum-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tooltip-card {
+            width: 100%;
+            min-height: 72px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            background: rgba(3, 7, 18, 0.85);
+            border: 1px solid var(--quantum-cyan);
+            color: var(--quantum-cyan);
             font-size: clamp(0.85rem, 2.2vw, 0.95rem);
-            text-align: center; 
-            outline: none; 
-            transition: all 0.4s ease;
-        }
-        
-        .console-input:focus { 
-            border-color: var(--cyber-gold); 
-            box-shadow: 0 0 25px var(--cyber-gold-glow); 
-            background: rgba(229, 169, 59, 0.02); 
+            font-weight: 500;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
         }
 
-        .gate-highlight { color: var(--cyber-gold); font-weight: 700; font-family: var(--font-en); display: inline-block; margin: 0 4px; }
-        .terminal-anchor { font-size: clamp(0.75rem, 2vw, 0.85rem); color: var(--text-dim); letter-spacing: 1.5px; transition: color 0.3s; flex-shrink: 0; }
-
-        /* الشاشات الصغيرة والتجاوب */
-        @media (max-height: 600px) {
-            .cinematic-container { padding: 12px; }
-            .brand-header { margin-bottom: 12px; }
-            .console-box { margin-bottom: 12px; }
-            .manifest-output { max-height: 30vh; }
+        @media (max-height: 680px) {
+            .node-card { padding: 18px; }
+            .badge-tag { margin-bottom: 12px; }
+            .manifesto-box { margin-bottom: 16px; padding: 12px 16px; }
+            .keys-container { margin-bottom: 16px; }
+            .tooltip-card { min-height: 60px; padding: 10px 14px; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="particleCanvas"></canvas>
-    <div class="cursor-glow" id="cursorGlow"></div>
+    <canvas id="quantumCanvas"></canvas>
+    <div class="aura-glow" id="auraGlow"></div>
 
-    <div class="cinematic-container">
-        <div class="brand-header" id="brandHeader">
-            <div class="main-logo">Hakmos</div>
+    <main class="node-card">
+        <div class="badge-tag">
+            <span class="badge-dot"></span>
+            <span>Sovereign Gateway • Lifetime Protocol</span>
         </div>
-        
-        <div class="manifest-output" id="manifestOutput"></div>
 
-        <div class="console-box">
-            <input type="text" class="console-input" id="magicConsole" autocomplete="off" spellcheck="false">
+        <h1 class="node-title">HAKMOS</h1>
+
+        <div class="manifesto-box">
+            <b>لا يهم من تكون.. غنياً يبتغي اتساع الأصول أو فقيراً يسعى نحو التمكين والربح، عالماً يثبت نتاجه أو باحثاً عن الذيوع الإعلامي، مريضاً يستطبّ أو صحيحاً يستزيد من الحيوية، باحثاً عن سكن وزواج نقي أو طامحاً لحياة مكتملة، رجلاً أو امرأة.. من بداية دربك وحتى ختام العمر.</b>
         </div>
-        
-        <div class="terminal-anchor" id="statusAnchor"></div>
-    </div>
+
+        <div class="keys-container" id="keysContainer">
+            <div class="key-btn" data-info="🏥 العيادة الشمولية: رعاية صحية وتغطية طبية متكاملة وحفظ لحيوية جسدك، بخصوصية وسرية متكاملة تتفوق على أي رادار.">
+                <span>H</span>
+            </div>
+            <div class="key-btn" data-info="🏰 الارتباط الحقيقي: بيئة زواج وارتباط حقيقي وبناء أسري نقي يضمن الاستقرار والسكينة والمتعة بعيداً عن صخب العالم الخارجي.">
+                <span>A</span>
+            </div>
+            <div class="key-btn" data-info="⚡ الجدارة والارتقاء: منصة عمل وتعلم حقيقي تعتمد الجدارة وحدها؛ حيث تتحول مهاراتك وشغفك إلى تمكين وارتقاء وربح مجزٍ.">
+                <span>K</span>
+            </div>
+            <div class="key-btn" data-info="💰 بيت المال: تنمية أصولك وتسييل أرباحك بسلاسة ونقاء تام، لضمان استقلالك المالي وسيادتك مدى الحياة.">
+                <span>M</span>
+            </div>
+            <div class="key-btn" data-info="📜 الديوان الأسود: المساحة الحرة المطلقة للتعبير، صيانة الأفكار، وحفظ الحقيقة من الضياع والتزييف.">
+                <span>O</span>
+            </div>
+            <div class="key-btn" data-info="🔑 الهدف الأسمى: حرية، سرية، أمان، ومتعة بلا حدود.. مفتاحك الخاص جاهز لمنحك التأشيرة الذهبية مدى الحياة.">
+                <span>S</span>
+            </div>
+        </div>
+
+        <div class="tooltip-card" id="tooltipCard">
+            المس أحد حروف الشفرة لتكتشف أبعاد عبورك الأبدي_
+        </div>
+    </main>
 
     <script>
-        let currentLang = 'ar';
-        let typingTimer = null;
+        const keys = document.querySelectorAll('.key-btn');
+        const tooltipCard = document.getElementById('tooltipCard');
+        const auraGlow = document.getElementById('auraGlow');
 
-        const i18n = {
-            ar: {
-                placeholder: "اطرح مخاوفك، شكوكك، أو أوامرك لفتح الأبعاد...",
-                waiting: "بانتظار أمر السيادة المكتوب_",
-                connecting: "جاري الاتصال بـ بروتوكول الحقيقة وتدقيق الهوية العتادية...",
-                success: "تم بث نداء العبور الأول بنجاح وسحق الزيف_",
-                processed: "تمت معالجة الاستعلام السيادي بنجاح_",
-                database: {
-                    manifest: `
-                        <span class="gate-highlight">[ HAKMOS LAUNCH MANIFEST v133 ]</span><br><br>
-                        <b>إلى النخبة العابرة لزيف العالم الرقمي.. حان وقت الانبعاث السيادي وثورة العقول الحرة.</b><br><br>
-                        لقد استنزفت المنصات التقليدية وجودكم، وتداولت بياناتكم الحية، وحولت إنسانيتكم إلى سلعة في مزاد الإعلانات. اليوم، نعلن نهاية عصر التبعية، وبداية زمن السيادة المطلقة.<br><br>
-                        منصة <span class="gate-highlight">HAKMOS</span> تطلق بروتوكول الحياة الحقيقي السداسي الموحد:<br><br>
-                        <span class="gate-highlight">🩺 [H] Holistic:</span> العيادة السيادية - تتبع صحي وعلاج بيولوجي مع حماية كاملة للخصوصية.<br>
-                        <span class="gate-highlight">💍 [A] Aligned:</span> الحصن العائلي - عقد زواج فطري ونظيف بعيداً عن مساحيق الزيف.<br>
-                        <span class="gate-highlight">💼 [K] Kinetic:</span> محرك الارتقاء - توظيف أعمى يسحق المحسوبية ويقدس الموهبة.<br>
-                        <span class="gate-highlight">💰 [M] Monetary:</span> بيت المال - إدارة أصول ومزادات وسحب نقدي P2P مطهر ضريبياً.<br>
-                        <span class="gate-highlight">🎬 [O] Original:</span> الديوان الأسود - مطارحات فكرية وصحافة محمية من استنساخ الصوت.<br>
-                        <span class="gate-highlight">👑 [S] Sovereign:</span> الهدف الأسمى - استعادة التحكم الكامل بمصيرك الشامل.<br><br>
-                        <span class="gate-highlight">تنفس هدوء الحقيقة.. واستشعر اقتراب اللحظة التي تضع فيها وثيقة حضورك وجوازك بين يدي البروتوكول، لتنفتح أمامك التأشيرة الذهبية؛ معبراً أبدياً نحو أبعاد السيادة...</span>
-                    `,
-                    privacy: "أرح عقلك؛ دع السكينة تتسلل إلى وعيك وأنت تدرك أن بياناتك ومشاعرك مصانة بالكامل. المنصة لا تخزن هويتك لتبيعها؛ وحينما تدنو ساعة العبور الكامل، ستكون وثيقتك وجوازك مفتاحك الوحيد لمنحك التأشيرة الذهبية المشفّرة عتادياً بصيغة التشفير الصفري (ZK-Proofs).",
-                    money: "الأموال داخل بيت المال لا يتم احتجازها؛ كل التسييل يتم بنظام المقاصة بالند للند (P2P) ويصل ليدك كاش بنقاء ضريبي 100% عبر عقود Deel وبصفر رادارات بنكية."
-                }
-            },
-            en: {
-                placeholder: "Enter your fears, doubts, or commands to unlock dimensions...",
-                waiting: "Awaiting sovereign command execution_",
-                connecting: "Connecting to Truth Protocol & verifying hardware identity...",
-                success: "First passage manifest deployed. Illusions dismantled_",
-                processed: "Sovereign query processed successfully_",
-                database: {
-                    manifest: `
-                        <span class="gate-highlight">[ HAKMOS LAUNCH MANIFEST v133 ]</span><br><br>
-                        <b>To the transcendent elite escaping digital deception.. The era of sovereign revival is here.</b><br><br>
-                        Conventional platforms have exhausted our existence and commercialized our living consciousness. Today, we declare the end of digital servitude and the dawn of absolute personal sovereignty.<br><br>
-                        <span class="gate-highlight">HAKMOS</span> introduces the Unified Hexagon Protocol:<br><br>
-                        <span class="gate-highlight">🩺 [H] Holistic:</span> Sovereign Health - Zero-privacy exposure biometrics.<br>
-                        <span class="gate-highlight">💍 [A] Aligned:</span> Family Fortress - Pure, natural matrimonial pairing.<br>
-                        <span class="gate-highlight">💼 [K] Kinetic:</span> Merit Engine - Blind hiring prioritizing uncorrupted talent.<br>
-                        <span class="gate-highlight">💰 [M] Monetary:</span> Treasury - P2P liquidation & tax-cleared asset autonomy via Deel.<br>
-                        <span class="gate-highlight">🎬 [O] Original:</span> Black Assembly - Protected investigative journalism & voice integrity.<br>
-                        <span class="gate-highlight">👑 [S] Sovereign:</span> Ultimate Purpose - Absolute mastery over your financial and physical reality.<br><br>
-                        <span class="gate-highlight">Breathe in the calm of truth.. Feel the moment approach when presenting your proof of existence and passport unlocks the Golden Visa into timeless sovereignty...</span>
-                    `,
-                    privacy: "Rest assured; let deep peace wash over you knowing your consciousness is safe. When the time comes for full passage, your passport will serve as your self-sovereign key to claim the Golden Visa, locally encrypted via Zero-Knowledge Proofs (ZK-Proofs).",
-                    money: "Capital inside the Treasury is never seized or locked. All settlements execute via Peer-to-Peer (P2P) channels and compliant international advisory bridges."
-                }
-            }
+        const moveAura = (x, y) => {
+            auraGlow.style.left = x + 'px';
+            auraGlow.style.top = y + 'px';
         };
-
-        const magicConsole = document.getElementById('magicConsole');
-        const manifestOutput = document.getElementById('manifestOutput');
-        const brandHeader = document.getElementById('brandHeader');
-        const statusAnchor = document.getElementById('statusAnchor');
-        const cursorGlow = document.getElementById('cursorGlow');
-
-        /* تتبع الماوس واللمس */
-        const updateGlow = (x, y) => {
-            cursorGlow.style.left = x + 'px';
-            cursorGlow.style.top = y + 'px';
-        };
-        window.addEventListener('mousemove', (e) => updateGlow(e.clientX, e.clientY));
+        window.addEventListener('mousemove', (e) => moveAura(e.clientX, e.clientY));
         window.addEventListener('touchmove', (e) => {
-            if(e.touches.length > 0) updateGlow(e.touches[0].clientX, e.touches[0].clientY);
+            if(e.touches.length > 0) moveAura(e.touches[0].clientX, e.touches[0].clientY);
         });
 
-        /* نظام الجسيمات */
-        const canvas = document.getElementById('particleCanvas');
+        const canvas = document.getElementById('quantumCanvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
+        let step = 0;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -275,130 +295,53 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedY = -(Math.random() * 0.3 + 0.1);
-                this.opacity = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-                this.y += this.speedY;
-                if (this.y < 0) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = `rgba(229, 169, 59, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 40; i++) particles.push(new Particle());
-
-        function animateParticles() {
+        function drawQuantumWaves() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
+            step += 0.008;
 
-        /* تطبيق اللغات والواجهة */
-        function applyLanguageSettings() {
-            const langData = i18n[currentLang];
-            document.documentElement.lang = currentLang;
-            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.body.style.fontFamily = currentLang === 'ar' ? 'var(--font-ar)' : 'var(--font-en)';
-            
-            magicConsole.placeholder = langData.placeholder;
-            if(!statusAnchor.innerText.includes('جاري الاتصال') && !statusAnchor.innerText.includes('Connecting')) {
-                statusAnchor.innerText = langData.waiting;
-            }
-        }
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = i % 2 === 0 ? 'rgba(245, 158, 11, 0.08)' : 'rgba(6, 182, 212, 0.08)';
 
-        magicConsole.addEventListener('input', function() {
-            const val = this.value.trim();
-            if (val.length === 0) {
-                if(currentLang !== 'ar') {
-                    currentLang = 'ar';
-                    applyLanguageSettings();
+                for (let x = 0; x < canvas.width; x += 10) {
+                    const y = Math.sin(x * 0.003 + step + i) * 40 + Math.cos(x * 0.001 + step) * 20 + canvas.height / 2;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
                 }
-                return; 
+                ctx.stroke();
             }
-            const isArabic = /[\u0600-\u06FF]/.test(val);
-            const newLang = isArabic ? 'ar' : 'en';
+            requestAnimationFrame(drawQuantumWaves);
+        }
+        drawQuantumWaves();
 
-            if (newLang !== currentLang) {
-                currentLang = newLang;
-                applyLanguageSettings();
-            }
-        });
-
-        magicConsole.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const query = magicConsole.value.trim().toLowerCase();
-                if (!query) return;
-
-                const langData = i18n[currentLang];
-                statusAnchor.innerText = langData.connecting;
-                statusAnchor.style.color = "var(--cyber-gold)";
+        keys.forEach(key => {
+            const handleInteraction = () => {
+                keys.forEach(k => k.classList.remove('active'));
+                key.classList.add('active');
+                const info = key.getAttribute('data-info');
                 
-                const processedLang = currentLang; 
-                magicConsole.value = '';
-
+                tooltipCard.style.opacity = '0';
                 setTimeout(() => {
-                    brandHeader.style.transform = "scale(0.85)";
-                    manifestOutput.style.display = "block";
+                    tooltipCard.innerHTML = info;
+                    tooltipCard.style.opacity = '1';
+                }, 150);
+            };
 
-                    if (query.match(/(خوف|أمان|بيانات|خصوصية|privacy|security|data)/)) {
-                        typeWriter(i18n[processedLang].database.privacy, processedLang);
-                    } else if (query.match(/(مال|ربح|فلوس|سحب|money|cash|withdraw)/)) {
-                        typeWriter(i18n[processedLang].database.money, processedLang);
-                    } else {
-                        manifestOutput.innerHTML = i18n[processedLang].database.manifest;
-                        statusAnchor.innerText = i18n[processedLang].success;
-                        statusAnchor.style.color = "#fff";
-                    }
-                }, 500);
-            }
+            key.addEventListener('mouseenter', handleInteraction);
+            key.addEventListener('click', handleInteraction);
         });
 
-        function typeWriter(text, targetLang) {
-            if (typingTimer) clearTimeout(typingTimer);
-            manifestOutput.innerHTML = '';
-            let i = 0;
-
-            function type() {
-                if (i < text.length) {
-                    manifestOutput.innerHTML += text.charAt(i);
-                    i++;
-                    typingTimer = setTimeout(type, 15);
-                } else {
-                    statusAnchor.innerText = i18n[targetLang].processed;
-                    statusAnchor.style.color = "#fff";
-                }
-            }
-            type();
-        }
-
-        applyLanguageSettings();
-
-        /* تسجيل Service Worker مدمج للتطبيقات التقدمية (Offline PWA) */
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'hakmos-v1';
                 self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
                 self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
                 self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
             `;
             const blob = new Blob([swCode], { type: 'text/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl).catch(() => {});
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
         }
     </script>
 </body>
 </html>
+
