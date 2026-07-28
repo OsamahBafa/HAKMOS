@@ -1,484 +1,556 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>HAKMOS | Transcendent Quantum Hyper-Node</title>
-
-    <!-- PWA Primary Meta Tags -->
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="HAKMOS">
-    <meta name="description" content="HAKMOS Universal Transcendent Sovereign Node">
-    <link rel="manifest" id="pwa-manifest">
-
-    <!-- Preload Advanced Holographic & Geometric Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Syne:wght@700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --bg-hyper: #000000;
-            --singularity-gold: #FFD700;
-            --singularity-cyan: #00F3FF;
-            --singularity-violet: #8A2BE2;
-            --text-glow: #FFFFFF;
-            --font-hyper: 'Orbitron', sans-serif;
-            --font-art: 'Syne', sans-serif;
-            --font-code: 'Space Grotesk', sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: var(--bg-hyper);
-            color: var(--text-glow);
-            font-family: var(--font-code);
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        /* WebGL / Canvas Matrix Web Layer */
-        #hyperCanvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Dynamic Reactive Quantum Singularity Arc */
-        .quantum-singularity {
-            position: absolute;
-            width: clamp(320px, 60vw, 650px);
-            height: clamp(320px, 60vw, 650px);
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, rgba(0, 243, 255, 0.15), rgba(138, 43, 226, 0.2), rgba(255, 215, 0, 0.15), rgba(0, 243, 255, 0.15));
-            filter: blur(60px);
-            z-index: 1;
-            pointer-events: none;
-            animation: rotateSingularity 20s linear infinite;
-            transform-origin: center;
-        }
-
-        @keyframes rotateSingularity {
-            0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
-            50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.08); }
-            100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
-        }
-
-        /* Seamless Hyper-Stage */
-        .hyper-stage {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 1100px;
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        /* Sovereign Telemetry Tag */
-        .telemetry-bar {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 6px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 100px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-family: var(--font-hyper);
-            font-size: 0.65rem;
-            letter-spacing: 5px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
-        }
-
-        .quantum-pulse {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--singularity-cyan);
-            box-shadow: 0 0 12px var(--singularity-cyan);
-            animation: hyperPulse 1.8s ease-in-out infinite alternate;
-        }
-
-        @keyframes hyperPulse {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.4); }
-        }
-
-        /* Kinetic Monolithic Title */
-        .kinetic-title-wrapper {
-            position: relative;
-            margin-bottom: 3rem;
-            perspective: 1000px;
-        }
-
-        .kinetic-title {
-            font-family: var(--font-art);
-            font-weight: 800;
-            font-size: clamp(3.8rem, 13vw, 8.5rem);
-            letter-spacing: 22px;
-            text-indent: 22px;
-            text-transform: uppercase;
-            color: transparent;
-            background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0.9) 30%, var(--singularity-gold) 70%, var(--singularity-cyan) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            filter: drop-shadow(0 0 45px rgba(0, 243, 255, 0.25));
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* Non-Standard Circular Matrix Coordinates */
-        .keys-hyper-ring {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: clamp(12px, 3.5vw, 32px);
-            width: 100%;
-            margin-bottom: 3.5rem;
-            direction: ltr;
-        }
-
-        .node-key {
-            position: relative;
-            width: clamp(54px, 12vw, 90px);
-            height: clamp(68px, 14vw, 110px);
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .node-key::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, var(--singularity-cyan) 0%, var(--singularity-violet) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-        }
-
-        .node-key span {
-            position: relative;
-            z-index: 2;
-            font-family: var(--font-hyper);
-            font-weight: 900;
-            font-size: clamp(1.8rem, 5.5vw, 3.2rem);
-            color: rgba(255, 255, 255, 0.35);
-            transition: all 0.4s ease;
-        }
-
-        .node-key .key-label {
-            position: absolute;
-            bottom: 8px;
-            font-size: 0.55rem;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.2);
-            font-family: var(--font-code);
-            z-index: 2;
-            transition: all 0.4s ease;
-        }
-
-        .node-key:hover, .node-key.active {
-            transform: translateY(-8px) scale(1.05);
-            border-color: var(--singularity-cyan);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
-        }
-
-        .node-key:hover::after, .node-key.active::after {
-            opacity: 0.12;
-        }
-
-        .node-key:hover span, .node-key.active span {
-            color: #FFFFFF;
-            text-shadow: 0 0 20px var(--singularity-cyan), 0 0 40px var(--singularity-gold);
-        }
-
-        .node-key:hover .key-label, .node-key.active .key-label {
-            color: var(--singularity-gold);
-        }
-
-        /* Multilingual Quantum Array Display */
-        .quantum-array-output {
-            width: 100%;
-            max-width: 850px;
-            min-height: 140px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            position: relative;
-            transition: all 0.5s ease;
-        }
-
-        .array-header {
-            font-family: var(--font-hyper);
-            font-size: clamp(0.9rem, 2.2vw, 1.2rem);
-            letter-spacing: 6px;
-            color: var(--singularity-gold);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .array-matrix {
-            font-size: clamp(0.85rem, 2vw, 1.05rem);
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 1.8;
-            font-weight: 300;
-            word-break: break-word;
-            max-width: 750px;
-        }
-
-        .array-hint {
-            font-family: var(--font-hyper);
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.2);
-            text-transform: uppercase;
-            animation: pulseText 3s infinite alternate;
-        }
-
-        @keyframes pulseText {
-            0% { opacity: 0.2; }
-            100% { opacity: 0.6; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HAKMOS — الكيان الحي</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@200;300;400&family=Noto+Sans:wght@200;300;400&family=Orbitron:wght@500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#02030a;font-family:'Noto Sans Arabic','Noto Sans',sans-serif}
+canvas{display:block;width:100%;height:100%;cursor:none}
+#whisper{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(180,220,255,0);font-weight:300;font-size:clamp(1rem,2.8vw,1.45rem);letter-spacing:3px;text-align:center;pointer-events:none;transition:opacity 3s ease;z-index:20;text-shadow:0 0 40px rgba(140,200,255,0.4);max-width:84vw;line-height:1.75;direction:auto}
+#concept{position:fixed;bottom:7%;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;z-index:20;opacity:0;transition:opacity .7s ease;max-width:92vw}
+#concept .title{font-family:'Orbitron',sans-serif;font-size:clamp(.7rem,1.9vw,.95rem);letter-spacing:4px;color:rgba(255,220,140,.9);margin-bottom:7px;text-transform:uppercase}
+#concept .matrix{font-size:clamp(.68rem,1.55vw,.88rem);color:rgba(200,230,255,.72);line-height:1.7;font-weight:300}
+.cursor-dot{position:fixed;width:5px;height:5px;background:rgba(160,220,255,.75);border-radius:50%;pointer-events:none;z-index:100;box-shadow:0 0 12px rgba(140,210,255,.7);transform:translate(-50%,-50%)}
+</style>
 </head>
 <body>
+<canvas id="c"></canvas>
+<div id="whisper"></div>
+<div id="concept"><div class="title"></div><div class="matrix"></div></div>
+<div class="cursor-dot" id="dot"></div>
 
-    <canvas id="hyperCanvas"></canvas>
-    <div class="quantum-singularity" id="singularityCore"></div>
+<script>
+(() => {
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d', { alpha: false }); // تحسين بسيط
+    const whisperEl = document.getElementById('whisper');
+    const conceptEl = document.getElementById('concept');
+    const conceptTitle = conceptEl.querySelector('.title');
+    const conceptMatrix = conceptEl.querySelector('.matrix');
+    const dot = document.getElementById('dot');
 
-    <main class="hyper-stage">
-        <div class="telemetry-bar">
-            <span class="quantum-pulse"></span>
-            <span>TRANSCENDENT NODE • UNIVERSAL DYNAMICS</span>
-        </div>
+    let W, H, CX, CY;
+    let time = 0;
+    let mouse = {x:0,y:0,active:false,lastMove:0};
+    let energy = 0;
+    let scars = [];
+    let membrane = [];
+    let particles = [];
+    let ripples = [];
+    let fogLayers = [];
+    let lastWhisper = 0;
+    let activeNode = null;
+    let prevActiveKey = null;
+    let targetHue=210, currentHue=210;
+    let targetPulse=1, currentPulse=1;
+    let targetNoise=14, currentNoise=14;
 
-        <div class="kinetic-title-wrapper">
-            <h1 class="kinetic-title">HAKMOS</h1>
-        </div>
+    // صوت
+    let audioCtx=null, masterGain=null, droneOsc=null, droneGain=null, droneFilter=null, audioStarted=false;
 
-        <!-- Non-Standard Hyper Octagonal Keys -->
-        <div class="keys-hyper-ring">
-            <div class="node-key" data-key="H"><span class="key-label">NODE_01</span><span>H</span></div>
-            <div class="node-key" data-key="A"><span class="key-label">NODE_02</span><span>A</span></div>
-            <div class="node-key" data-key="K"><span class="key-label">NODE_03</span><span>K</span></div>
-            <div class="node-key" data-key="M"><span class="key-label">NODE_04</span><span>M</span></div>
-            <div class="node-key" data-key="O"><span class="key-label">NODE_05</span><span>O</span></div>
-            <div class="node-key" data-key="S"><span class="key-label">NODE_06</span><span>S</span></div>
-        </div>
+    function initAudio(){
+        if(audioStarted)return;
+        try{
+            audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+            masterGain=audioCtx.createGain();
+            masterGain.gain.value=0.14;
+            masterGain.connect(audioCtx.destination);
+            droneOsc=audioCtx.createOscillator();
+            droneOsc.type='sine';
+            droneOsc.frequency.value=55;
+            droneFilter=audioCtx.createBiquadFilter();
+            droneFilter.type='lowpass';
+            droneFilter.frequency.value=180;
+            droneFilter.Q.value=2;
+            droneGain=audioCtx.createGain();
+            droneGain.gain.value=0.35;
+            droneOsc.connect(droneFilter);
+            droneFilter.connect(droneGain);
+            droneGain.connect(masterGain);
+            droneOsc.start();
+            audioStarted=true;
+        }catch(e){}
+    }
+    function playTone(freq,dur,type='sine',vol=0.15,attack=0.08){
+        if(!audioStarted||!audioCtx)return;
+        try{
+            const osc=audioCtx.createOscillator();
+            const gain=audioCtx.createGain();
+            osc.type=type;osc.frequency.value=freq;
+            const now=audioCtx.currentTime;
+            gain.gain.setValueAtTime(0,now);
+            gain.gain.linearRampToValueAtTime(vol,now+attack);
+            gain.gain.exponentialRampToValueAtTime(0.001,now+dur);
+            osc.connect(gain);gain.connect(masterGain);
+            osc.start(now);osc.stop(now+dur+0.05);
+        }catch(e){}
+    }
+    function playNodeActivate(){playTone(523.25,1.1,'sine',0.09,0.12);setTimeout(()=>playTone(659.25,0.9,'sine',0.06,0.1),90)}
+    function playProximity(){playTone(340+Math.random()*40,0.35,'triangle',0.025,0.05)}
+    function playEnergyPulse(){playTone(180+Math.random()*30,0.5,'sine',0.04,0.03)}
+    function playWhisperCue(){playTone(680,1.4,'sine',0.05,0.2);setTimeout(()=>playTone(840,1.1,'sine',0.035,0.15),120)}
+    function updateDrone(){
+        if(!audioStarted)return;
+        const baseFreq=48+(currentHue/360)*35;
+        droneOsc.frequency.setTargetAtTime(baseFreq,audioCtx.currentTime,0.45);
+        droneFilter.frequency.setTargetAtTime(140+currentNoise*6,audioCtx.currentTime,0.5);
+        droneGain.gain.setTargetAtTime(0.28+energy*0.12,audioCtx.currentTime,0.3);
+    }
+    function startAudioOnInteraction(){
+        if(!audioStarted)initAudio();
+        if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});
+    }
 
-        <!-- Universal Multilingual Stream Matrix -->
-        <div class="quantum-array-output" id="arrayOutput">
-            <div class="array-hint">INITIALIZE TRANSCENDENT LINK // SELECT FREQUENCY</div>
-        </div>
-    </main>
+    function canVibrate(){return typeof navigator!=='undefined'&&typeof navigator.vibrate==='function'}
+    function vibrateNode(){if(canVibrate())navigator.vibrate([25,30,25])}
+    function vibrateEnergy(){if(canVibrate())navigator.vibrate(18)}
+    function vibrateWhisper(){if(canVibrate())navigator.vibrate([20,40,20,40,20])}
 
-    <script>
-        // Inline Manifest Generation for Self-Contained PWA Capability
-        const manifestData = {
-            "name": "HAKMOS Sovereign Node",
-            "short_name": "HAKMOS",
-            "start_url": "./",
-            "display": "standalone",
-            "background_color": "#000000",
-            "theme_color": "#000000",
-            "orientation": "portrait-primary",
-            "icons": [
-                {
-                    "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23000000'><rect width='512' height='512' fill='%23000000'/><circle cx='256' cy='256' r='200' stroke='%2300F3FF' stroke-width='16' fill='none'/><text x='51%' y='58%' dominant-baseline='middle' text-anchor='middle' fill='%23FFD700' font-family='sans-serif' font-size='180' font-weight='900'>H</text></svg>",
-                    "sizes": "512x512",
-                    "type": "image/svg+xml",
-                    "purpose": "any maskable"
-                }
-            ]
-        };
-        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-        document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(manifestBlob));
+    const hakmos={
+        H:{title:"HOLISTIC CLINIC",matrix:"AR: العيادة الشمولية • EN: Holistic Clinic • ZH: 整体诊所 • ES: Clínica Holística • FR: Clinique Holistique • RU: Холистическая Клиника • JA: ホリスティック・クリニック • KO: 전인적 클리닉 • HI: समग्र क्लिनिक • PT: Clínica Holística • DE: Ganzheitliche Klinik • TR: Bütüncül Klinik • FA: کلینیک جامع"},
+        A:{title:"ALIGNED FORTRESS",matrix:"AR: الحصن المتوافق • EN: Aligned Fortress • ZH: 对齐堡垒 • ES: Fortaleza Alineada • FR: Forteresse Alignée • RU: Выровненная Крепость • JA: 整列した要塞 • KO: 정렬된 요새 • HI: संरेखित किला • PT: Fortaleza Alinhada • DE: Ausgerichtete Festung • TR: Hizalanmış Kale • FA: دژ هم‌راستا"},
+        K:{title:"KINETIC MERIT",matrix:"AR: الجدارة الحركية • EN: Kinetic Merit • ZH: 动能功绩 • ES: Mérito Cinético • FR: Mérite Cinétique • RU: Кинетическая Заслуга • JA: 運動的功績 • KO: 운동 공로 • HI: गतिज योग्यता • PT: Mérito Cinético • DE: Kinetisches Verdienst • TR: Kinetik Liyakat • FA: شایستگی جنبشی"},
+        M:{title:"MONETARY TREASURY",matrix:"AR: الخزانة المالية • EN: Monetary Treasury • ZH: 货币宝库 • ES: Tesorería Monetaria • FR: Trésorerie Monétaire • RU: Денежная Сокровищница • JA: 通貨の宝物庫 • KO: 화폐 금고 • HI: मौद्रिक खजाना • PT: Tesouraria Monetária • DE: Monetäre Schatzkammer • TR: Parasal Hazine • FA: خزانه پولی"},
+        O:{title:"ORIGINAL COUNCIL",matrix:"AR: المجلس الأصيل • EN: Original Council • ZH: 原始议会 • ES: Consejo Original • FR: Conseil Originel • RU: Изначальный Совет • JA: 原初の評議会 • KO: 원초 의회 • HI: मूल परिषद • PT: Conselho Original • DE: Ursprünglicher Rat • TR: Orijinal Konsey • FA: شورای اصیل"},
+        S:{title:"SUPREME LIFE",matrix:"AR: الحياة السامية • EN: Supreme Life • ZH: 至高生命 • ES: Vida Suprema • FR: Vie Suprême • RU: Высшая Жизнь • JA: 至高の生命 • KO: 최고의 삶 • HI: सर्वोच्च जीवन • PT: Vida Suprema • DE: Höchstes Leben • TR: Yüce Hayat • FA: زندگی متعالی"}
+    };
 
-        // Self-Registering Service Worker (Offline Support & PWA Compliance)
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                const CACHE_NAME = 'hakmos-v1';
-                self.addEventListener('install', (e) => {
-                    self.skipWaiting();
-                });
-                self.addEventListener('activate', (e) => {
-                    e.waitUntil(clients.claim());
-                });
-                self.addEventListener('fetch', (e) => {
-                    e.respondWith(
-                        fetch(e.request).catch(() => caches.match(e.request))
-                    );
-                });
-            `;
-            const swBlob = new Blob([swCode], { type: 'text/javascript' });
-            navigator.serviceWorker.register(URL.createObjectURL(swBlob))
-                .catch(err => console.log('SW registration note:', err));
+    const nodes=[
+        {key:"H",angle:-Math.PI/2-1.05,label:"H"},
+        {key:"A",angle:-Math.PI/2-0.63,label:"A"},
+        {key:"K",angle:-Math.PI/2-0.21,label:"K"},
+        {key:"M",angle:-Math.PI/2+0.21,label:"M"},
+        {key:"O",angle:-Math.PI/2+0.63,label:"O"},
+        {key:"S",angle:-Math.PI/2+1.05,label:"S"}
+    ];
+
+    const langWhispers={
+        ar:["قريبًا سيكون واقعًا لأجلك","بجواز سفرك يتحقق حلمك","أنت في أمان هنا","هذا المكان وُجد من أجلك","حلمك يقترب أكثر مما تتخيل","الثقة تبدأ من هنا","لكل إنسان مكانه، ولك مكانك","الفضول بوابة التحول","أنت لست وحدك في هذا الطريق","قريبًا... لأجلك أنت"],
+        en:["Soon it will be a reality for you","With your passport your dream comes true","You are safe here","This place was made for you","Your dream is closer than you think","Confidence begins here","Everyone has a place, and so do you","Curiosity is the gateway to transformation","You are not alone on this path","Soon... for you"],
+        zh:["很快它将成为你的现实","用你的护照实现你的梦想","你在这里很安全"],
+        es:["Pronto será una realidad para ti","Con tu pasaporte tu sueño se hace realidad","Estás a salvo aquí"],
+        fr:["Bientôt ce sera une réalité pour toi","Avec ton passeport ton rêve se réalise"],
+        ru:["Скоро это станет реальностью для тебя","С твоим паспортом твоя мечта сбудется"],
+        ja:["すぐにそれはあなたにとって現実になります","あなたのパスポートで夢が叶う"],
+        ko:["곧 그것이 당신에게 현실이 될 것입니다","당신의 여권으로 꿈이 이루어집니다"],
+        de:["Bald wird es für dich Wirklichkeit","Mit deinem Pass wird dein Traum wahr"],
+        pt:["Em breve será uma realidade para você","Com seu passaporte seu sonho se realiza"],
+        tr:["Yakında senin için gerçek olacak","Pasaportunla hayalin gerçekleşir"],
+        fa:["به زودی برای تو واقعیت خواهد شد","با گذرنامه‌ات رویایت محقق می‌شود"]
+    };
+
+    const browserLang=(navigator.language||"en").slice(0,2).toLowerCase();
+    const userWhispers=langWhispers[browserLang]||langWhispers.en;
+    const allWhispers=Object.values(langWhispers).flat();
+    let whisperIndex=0;
+    function getNextWhisper(){return Math.random()<0.78?userWhispers[whisperIndex%userWhispers.length]:allWhispers[Math.floor(Math.random()*allWhispers.length)]}
+
+    const nodeTraits={
+        H:{hue:160,pulse:0.85,noise:9},
+        A:{hue:200,pulse:0.7,noise:6},
+        K:{hue:35,pulse:1.35,noise:22},
+        M:{hue:45,pulse:0.95,noise:8},
+        O:{hue:270,pulse:0.8,noise:16},
+        S:{hue:50,pulse:1.5,noise:12}
+    };
+
+    function resize(){
+        W=canvas.width=window.innerWidth;
+        H=canvas.height=window.innerHeight;
+        CX=W*0.5;CY=H*0.5;
+        initMembrane();
+        initFog();
+    }
+
+    function initMembrane(){
+        membrane=[];
+        const count=96; // أقل من السابق
+        for(let i=0;i<count;i++){
+            const angle=(i/count)*Math.PI*2;
+            membrane.push({
+                angle,
+                baseR:Math.min(W,H)*0.21,
+                r:Math.min(W,H)*0.21,
+                noiseOff:Math.random()*1000,
+                scar:0
+            });
+        }
+        particles=[];
+        for(let i=0;i<55;i++){ // أقل جسيمات
+            particles.push({
+                x:CX+(Math.random()-0.5)*360,
+                y:CY+(Math.random()-0.5)*360,
+                vx:0,vy:0,
+                life:Math.random()*Math.PI*2,
+                size:Math.random()*1.6+0.5,
+                speed:0.35+Math.random()*0.45
+            });
+        }
+    }
+
+    function initFog(){
+        fogLayers=[];
+        for(let i=0;i<5;i++){ // 5 طبقات فقط
+            fogLayers.push({
+                x:Math.random()*W,
+                y:Math.random()*H,
+                radius:Math.min(W,H)*(0.38+Math.random()*0.4),
+                vx:(Math.random()-0.5)*0.22,
+                vy:(Math.random()-0.5)*0.16,
+                opacity:0.028+Math.random()*0.03,
+                phase:Math.random()*Math.PI*2,
+                speed:0.14+Math.random()*0.22
+            });
+        }
+    }
+
+    function noise(x,y,t){
+        return Math.sin(x*0.7+t*0.4)*Math.cos(y*0.6-t*0.3)*0.5 + Math.sin(x*1.3-t*0.2)*0.25;
+    }
+
+    function addRipple(x,y,force){
+        if(ripples.length>12)return; // حد أقصى
+        ripples.push({x,y,radius:5,max:70+force*35,life:1,speed:2.4+force});
+    }
+
+    function update(){
+        time+=0.0085;
+        energy*=0.991;
+        const idle=performance.now()-mouse.lastMove>2400;
+
+        if(activeNode&&nodeTraits[activeNode.key]){
+            const t=nodeTraits[activeNode.key];
+            targetHue=t.hue;targetPulse=t.pulse;targetNoise=t.noise;
+        }else{
+            targetHue=210;targetPulse=1;targetNoise=14;
+        }
+        currentHue+=(targetHue-currentHue)*0.03;
+        currentPulse+=(targetPulse-currentPulse)*0.04;
+        currentNoise+=(targetNoise-currentNoise)*0.04;
+        updateDrone();
+
+        // ضباب
+        for(const f of fogLayers){
+            f.x+=f.vx+Math.sin(time*f.speed+f.phase)*0.13;
+            f.y+=f.vy+Math.cos(time*f.speed*0.8+f.phase)*0.11;
+            if(f.x<-f.radius)f.x=W+f.radius;
+            if(f.x>W+f.radius)f.x=-f.radius;
+            if(f.y<-f.radius)f.y=H+f.radius;
+            if(f.y>H+f.radius)f.y=-f.radius;
         }
 
-        // Transcendent Multilingual Universal Mapping
-        const transcendentMap = {
-            H: {
-                title: "HOLISTIC MATRIX • 01",
-                matrix: "AR: العيادة الشمولية • EN: Holistic Care • ZH: 全人健康 • ES: Clínica Holística • HI: समग्र स्वास्थ्य • RU: Холистический Центр • FR: Clinique Holistique • DE: Ganzheitliche Pflege • JA: 全人的ケア • PT: Clínica Holística"
-            },
-            A: {
-                title: "ALIGNED SYNERGY • 02",
-                matrix: "AR: الارتباط الحقيقي • EN: True Alignment • ZH: 真实契合 • ES: Alineación Real • HI: वास्तविक संरेखण • RU: Истинный Союз • FR: Alignement Pur • DE: Echte Ausrichtung • JA: 真の調和 • PT: Alinhamento Verdadeiro"
-            },
-            K: {
-                title: "KINETIC MERIT • 03",
-                matrix: "AR: الجدارة والارتقاء • EN: Merit & Elevation • ZH: 绩效与昇华 • ES: Mérito y Elevación • HI: योग्यता और उन्नति • RU: Меритократия • FR: Mérite & Élévation • DE: Verdienst & Aufstieg • JA: 実力昇華 • PT: Mérito e Elevação"
-            },
-            M: {
-                title: "MONETARY SOVEREIGNTY • 04",
-                matrix: "AR: بيت المال • EN: Sovereign Treasury • ZH: 主权金库 • ES: Tesorería Soberana • HI: संप्रभु कोष • RU: Суверенная Казна • FR: Trésorerie Souveraine • DE: Souveräner Schatz • JA: 主権金庫 • PT: Tesouraria Soberana"
-            },
-            O: {
-                title: "ORIGINAL ARCHIVES • 05",
-                matrix: "AR: الديوان الأسود • EN: Black Archives • ZH: 黑色档案馆 • ES: Archivos Negros • HI: ब्लैक आर्काइव • RU: Черный Архив • FR: Archives Noires • DE: Schwarzes Archiv • JA: 漆黒の文書館 • PT: Arquivos Negros"
-            },
-            S: {
-                title: "SUPREME DESTINY • 06",
-                matrix: "AR: الهدف الأسمى • EN: Supreme Destiny • ZH: 至高天命 • ES: Destino Supremo • HI: सर्वोच्च नियति • RU: Высшая Цель • FR: Destinée Suprême • DE: Höchste Bestimmung • JA: 至高の天命 • PT: Destino Supremo"
-            }
-        };
+        // غشاء
+        for(let i=0;i<membrane.length;i++){
+            const m=membrane[i];
+            const px=CX+Math.cos(m.angle)*m.r;
+            const py=CY+Math.sin(m.angle)*m.r;
+            let targetR=m.baseR*currentPulse;
+            targetR+=noise(m.angle*3,m.noiseOff,time)*currentNoise;
+            targetR+=Math.sin(time*0.9+m.angle*2)*(4.8+currentNoise*0.17);
 
-        const nodeKeys = document.querySelectorAll('.node-key');
-        const arrayOutput = document.getElementById('arrayOutput');
-        const singularityCore = document.getElementById('singularityCore');
-
-        // Dynamic Singularity Tracking
-        const moveSingularity = (x, y) => {
-            singularityCore.style.left = x + 'px';
-            singularityCore.style.top = y + 'px';
-        };
-        window.addEventListener('mousemove', (e) => moveSingularity(e.clientX, e.clientY));
-        window.addEventListener('touchmove', (e) => {
-            if(e.touches.length > 0) moveSingularity(e.touches[0].clientX, e.touches[0].clientY);
-        });
-
-        // Generative Hyper-Node Canvas Mesh
-        const canvas = document.getElementById('hyperCanvas');
-        const ctx = canvas.getContext('2d');
-        let nodes = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            nodes = [];
-            const count = Math.floor((canvas.width * canvas.height) / 18000);
-            for (let i = 0; i < count; i++) {
-                nodes.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 1.5 + 0.5,
-                    color: Math.random() > 0.5 ? '#00F3FF' : '#FFD700',
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3
-                });
-            }
-        }
-
-        function drawHyperMesh() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let i = 0; i < nodes.length; i++) {
-                const n1 = nodes[i];
-                n1.x += n1.vx;
-                n1.y += n1.vy;
-
-                if (n1.x < 0 || n1.x > canvas.width) n1.vx *= -1;
-                if (n1.y < 0 || n1.y > canvas.height) n1.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(n1.x, n1.y, n1.radius, 0, Math.PI * 2);
-                ctx.fillStyle = n1.color;
-                ctx.globalAlpha = 0.4;
-                ctx.fill();
-
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const n2 = nodes[j];
-                    const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
-
-                    if (dist < 110) {
-                        ctx.beginPath();
-                        ctx.moveTo(n1.x, n1.y);
-                        ctx.lineTo(n2.x, n2.y);
-                        ctx.strokeStyle = n1.color;
-                        ctx.globalAlpha = (1 - dist / 110) * 0.15;
-                        ctx.lineWidth = 0.6;
-                        ctx.stroke();
+            if(mouse.active){
+                const dist=Math.hypot(mouse.x-px,mouse.y-py);
+                if(dist<230){
+                    const force=(1-dist/230)*34;
+                    targetR-=force*0.55;
+                    energy+=force*0.0013;
+                    if(Math.random()<0.025&&energy>0.35){
+                        m.scar=Math.min(1,m.scar+0.03);
+                        if(scars.length<55&&Math.random()<0.28){
+                            scars.push({x:px,y:py,life:1,size:Math.random()*11+4,angle:Math.random()*Math.PI*2});
+                            playEnergyPulse();
+                            vibrateEnergy();
+                            if(Math.random()<0.4)addRipple(px,py,force/40);
+                        }
                     }
                 }
             }
-            requestAnimationFrame(drawHyperMesh);
+            if(idle)targetR+=Math.sin(time*0.4+m.angle*5)*7.5;
+            m.r+=(targetR-m.r)*0.045;
+            m.scar*=0.9987;
         }
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        drawHyperMesh();
+        // تموجات
+        for(let i=ripples.length-1;i>=0;i--){
+            const r=ripples[i];
+            r.radius+=r.speed;
+            r.life-=0.02;
+            if(r.life<=0||r.radius>r.max)ripples.splice(i,1);
+        }
 
-        // Node Trigger Logic
-        nodeKeys.forEach(btn => {
-            const triggerNode = () => {
-                nodeKeys.forEach(k => k.classList.remove('active'));
-                btn.classList.add('active');
+        // عقد
+        activeNode=null;
+        const orbitR=Math.min(W,H)*0.37;
+        let closestDist=9999;
+        for(const node of nodes){
+            const nx=CX+Math.cos(node.angle+time*0.024)*orbitR;
+            const ny=CY+Math.sin(node.angle+time*0.024)*orbitR;
+            node.x=nx;node.y=ny;
+            const dist=Math.hypot(mouse.x-nx,mouse.y-ny);
+            if(mouse.active&&dist<48){activeNode=node;energy+=0.018}
+            if(dist<closestDist)closestDist=dist;
+        }
 
-                const key = btn.getAttribute('data-key');
-                const data = transcendentMap[key];
+        if(activeNode&&activeNode.key!==prevActiveKey){
+            playNodeActivate();
+            vibrateNode();
+            addRipple(activeNode.x,activeNode.y,1.1);
+            prevActiveKey=activeNode.key;
+        }else if(!activeNode)prevActiveKey=null;
 
-                arrayOutput.style.opacity = '0';
-                arrayOutput.style.transform = 'scale(0.98)';
+        if(mouse.active&&closestDist<70&&closestDist>48&&Math.random()<0.06)playProximity();
 
-                setTimeout(() => {
-                    arrayOutput.innerHTML = `
-                        <div class="array-header">${data.title}</div>
-                        <div class="array-matrix">${data.matrix}</div>
-                    `;
-                    arrayOutput.style.opacity = '1';
-                    arrayOutput.style.transform = 'scale(1)';
-                }, 180);
-            };
+        if(activeNode){
+            const data=hakmos[activeNode.key];
+            conceptTitle.textContent=data.title;
+            conceptMatrix.textContent=data.matrix;
+            conceptEl.style.opacity="1";
+        }else conceptEl.style.opacity="0";
 
-            btn.addEventListener('mouseenter', triggerNode);
-            btn.addEventListener('click', triggerNode);
-        });
-    </script>
+        // جسيمات (محسّنة)
+        for(const p of particles){
+            const dx=CX-p.x,dy=CY-p.y;
+            const dist=Math.hypot(dx,dy)||1;
+            p.vx+=(dx/dist)*0.015*p.speed;
+            p.vy+=(dy/dist)*0.015*p.speed;
+            if(mouse.active){
+                const mdist=Math.hypot(mouse.x-p.x,mouse.y-p.y)||1;
+                if(mdist<180){
+                    p.vx-=((mouse.x-p.x)/mdist)*0.12;
+                    p.vy-=((mouse.y-p.y)/mdist)*0.12;
+                }
+            }
+            p.vx*=0.96;p.vy*=0.96;
+            p.x+=p.vx;p.y+=p.vy;
+            p.life+=0.024;
+        }
+
+        for(let i=scars.length-1;i>=0;i--){
+            scars[i].life*=0.997;
+            if(scars[i].life<0.025)scars.splice(i,1);
+        }
+
+        if(energy>1.45&&performance.now()-lastWhisper>7500){
+            whisperEl.textContent=getNextWhisper();
+            whisperEl.style.opacity="0.72";
+            playWhisperCue();
+            vibrateWhisper();
+            whisperIndex++;
+            lastWhisper=performance.now();
+            setTimeout(()=>whisperEl.style.opacity="0",4800);
+        }
+    }
+
+    function draw(){
+        // خلفية
+        ctx.fillStyle=`hsla(${currentHue},40%,8%,1)`;
+        ctx.fillRect(0,0,W,H);
+
+        const bg=ctx.createRadialGradient(CX,CY,0,CX,CY,Math.max(W,H)*0.8);
+        bg.addColorStop(0,`hsla(\( {currentHue},45%,12%, \){0.4+energy*0.05})`);
+        bg.addColorStop(0.6,`hsla(${currentHue},30%,7%,0.7)`);
+        bg.addColorStop(1,"#02030a");
+        ctx.fillStyle=bg;
+        ctx.fillRect(0,0,W,H);
+
+        // ضباب
+        for(const f of fogLayers){
+            const g=ctx.createRadialGradient(f.x,f.y,0,f.x,f.y,f.radius);
+            const a=f.opacity*(0.9+energy*0.2);
+            g.addColorStop(0,`hsla(\( {currentHue},40%,55%, \){a})`);
+            g.addColorStop(0.5,`hsla(\( {currentHue},35%,40%, \){a*0.4})`);
+            g.addColorStop(1,`hsla(${currentHue},30%,25%,0)`);
+            ctx.beginPath();
+            ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
+            ctx.fillStyle=g;
+            ctx.fill();
+        }
+
+        // تموجات
+        for(const r of ripples){
+            ctx.beginPath();
+            ctx.arc(r.x,r.y,r.radius,0,Math.PI*2);
+            ctx.strokeStyle=`hsla(\( {currentHue},70%,70%, \){r.life*0.2})`;
+            ctx.lineWidth=1.4*r.life;
+            ctx.stroke();
+        }
+
+        // الغشاء (3 طبقات فقط)
+        for(let layer=2;layer>=0;layer--){
+            ctx.beginPath();
+            for(let i=0;i<=membrane.length;i++){
+                const m=membrane[i%membrane.length];
+                const breathe=Math.sin(time*1.1+m.angle*3+layer)*(3.2-layer*0.7);
+                const r=m.r-layer*6+breathe;
+                const x=CX+Math.cos(m.angle)*r;
+                const y=CY+Math.sin(m.angle)*r;
+                i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+            }
+            ctx.closePath();
+            const alpha=0.045+(2-layer)*0.03+energy*0.02;
+            ctx.fillStyle=`hsla(\( {currentHue+layer*4}, \){50+layer*5}%,\( {42+layer*6}%, \){alpha})`;
+            ctx.fill();
+            ctx.strokeStyle=`hsla(\( {currentHue},65%,75%, \){0.03+energy*0.03})`;
+            ctx.lineWidth=1.1;
+            ctx.stroke();
+        }
+
+        // أشعة
+        if(activeNode){
+            const angle=Math.atan2(activeNode.y-CY,activeNode.x-CX);
+            for(let i=0;i<3;i++){
+                const spread=(i-1)*0.09;
+                const len=Math.min(W,H)*0.32;
+                ctx.beginPath();
+                ctx.moveTo(CX,CY);
+                ctx.lineTo(CX+Math.cos(angle+spread)*len,CY+Math.sin(angle+spread)*len);
+                ctx.strokeStyle=`hsla(\( {currentHue},80%,70%, \){0.045-Math.abs(i-1)*0.012})`;
+                ctx.lineWidth=5-Math.abs(i-1)*1.5;
+                ctx.stroke();
+            }
+        }
+
+        // النواة
+        const corePulse=1+Math.sin(time*1.3)*0.07+energy*0.045;
+        const coreG=ctx.createRadialGradient(CX,CY,0,CX,CY,78*corePulse);
+        coreG.addColorStop(0,`hsla(\( {currentHue},80%,80%, \){0.17+energy*0.09})`);
+        coreG.addColorStop(0.35,`hsla(\( {currentHue},70%,60%, \){0.08+energy*0.04})`);
+        coreG.addColorStop(1,`hsla(${currentHue},40%,25%,0)`);
+        ctx.beginPath();
+        ctx.arc(CX,CY,78*corePulse,0,Math.PI*2);
+        ctx.fillStyle=coreG;
+        ctx.fill();
+
+        // شبكة الجسيمات (محدودة)
+        ctx.lineWidth=0.55;
+        for(let i=0;i<particles.length;i++){
+            const p1=particles[i];
+            for(let j=i+1;j<Math.min(i+8,particles.length);j++){ // ربط محدود جداً
+                const p2=particles[j];
+                const d=Math.hypot(p1.x-p2.x,p1.y-p2.y);
+                if(d<85){
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x,p1.y);
+                    ctx.lineTo(p2.x,p2.y);
+                    ctx.strokeStyle=`hsla(\( {currentHue},60%,70%, \){(1-d/85)*0.11})`;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // جسيمات
+        for(const p of particles){
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+            ctx.fillStyle=`hsla(\( {currentHue},65%,75%, \){0.15+Math.sin(p.life)*0.09})`;
+            ctx.fill();
+        }
+
+        // ندوب
+        for(const s of scars){
+            ctx.beginPath();
+            ctx.ellipse(s.x,s.y,s.size*s.life,s.size*0.36*s.life,s.angle,0,Math.PI*2);
+            ctx.fillStyle=`hsla(\( {currentHue},60%,70%, \){s.life*0.18})`;
+            ctx.fill();
+        }
+
+        // نقاط الندوب على الغشاء
+        for(const m of membrane){
+            if(m.scar>0.06){
+                const x=CX+Math.cos(m.angle)*m.r;
+                const y=CY+Math.sin(m.angle)*m.r;
+                ctx.beginPath();
+                ctx.arc(x,y,1.6+m.scar*3,0,Math.PI*2);
+                ctx.fillStyle=`hsla(\( {currentHue},75%,82%, \){m.scar*0.4})`;
+                ctx.fill();
+            }
+        }
+
+        // العقد
+        for(const node of nodes){
+            const isActive=activeNode&&activeNode.key===node.key;
+            const pulse=1+Math.sin(time*2.1+node.angle)*0.09;
+            const radius=(isActive?15:10.5)*pulse;
+
+            const ng=ctx.createRadialGradient(node.x,node.y,0,node.x,node.y,radius*3);
+            ng.addColorStop(0,isActive?`hsla(\( {currentHue},75%,70%,0.32)`:`hsla( \){currentHue},50%,60%,0.11)`);
+            ng.addColorStop(1,`hsla(${currentHue},40%,40%,0)`);
+            ctx.beginPath();
+            ctx.arc(node.x,node.y,radius*3,0,Math.PI*2);
+            ctx.fillStyle=ng;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(node.x,node.y,radius,0,Math.PI*2);
+            ctx.fillStyle=isActive?`hsla(\( {currentHue},80%,78%,0.9)`:`hsla( \){currentHue},55%,70%,0.53)`;
+            ctx.fill();
+
+            ctx.font=`600 ${isActive?12:10.5}px Orbitron`;
+            ctx.fillStyle=isActive?"rgba(12,20,40,0.9)":"rgba(8,16,35,0.82)";
+            ctx.textAlign="center";
+            ctx.textBaseline="middle";
+            ctx.fillText(node.label,node.x,node.y+1);
+        }
+
+        // حقل المؤشر
+        if(mouse.active){
+            const fg=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,160);
+            fg.addColorStop(0,`hsla(${currentHue},70%,75%,0.06)`);
+            fg.addColorStop(1,`hsla(${currentHue},40%,30%,0)`);
+            ctx.beginPath();
+            ctx.arc(mouse.x,mouse.y,160,0,Math.PI*2);
+            ctx.fillStyle=fg;
+            ctx.fill();
+        }
+
+        // vignette خفيف
+        const vig=ctx.createRadialGradient(CX,CY,Math.min(W,H)*0.3,CX,CY,Math.max(W,H)*0.7);
+        vig.addColorStop(0,"rgba(0,0,0,0)");
+        vig.addColorStop(1,"rgba(0,0,0,0.4)");
+        ctx.fillStyle=vig;
+        ctx.fillRect(0,0,W,H);
+    }
+
+    function loop(timestamp){
+        update();
+        draw();
+        requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize',resize);
+    window.addEventListener('mousemove',e=>{
+        startAudioOnInteraction();
+        mouse.x=e.clientX;mouse.y=e.clientY;
+        mouse.active=true;mouse.lastMove=performance.now();
+        dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
+        energy+=0.01;
+    });
+    window.addEventListener('mouseleave',()=>mouse.active=false);
+    window.addEventListener('touchmove',e=>{
+        e.preventDefault();
+        startAudioOnInteraction();
+        const t=e.touches[0];
+        mouse.x=t.clientX;mouse.y=t.clientY;
+        mouse.active=true;mouse.lastMove=performance.now();
+        dot.style.left=t.clientX+'px';dot.style.top=t.clientY+'px';
+        energy+=0.015;
+    },{passive:false});
+    window.addEventListener('touchstart',e=>{
+        startAudioOnInteraction();
+        const t=e.touches[0];
+        mouse.x=t.clientX;mouse.y=t.clientY;
+        mouse.active=true;mouse.lastMove=performance.now();
+        energy+=0.035;
+    });
+    window.addEventListener('touchend',()=>mouse.active=false);
+
+    resize();
+    requestAnimationFrame(loop);
+    document.body.style.cursor='none';
+})();
+</script>
 </body>
 </html>
