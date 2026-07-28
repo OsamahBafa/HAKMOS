@@ -5,73 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAKMOS | Cyber Sovereign Protocol v133</title>
     
-    <!-- استدعاء أحدث محركات الخطوط المستقبلية لعام 2026 -->
+    <!-- الخطوط -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Cairo:wght@200;300;400;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Cairo:wght@300;400;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-void: #010102;
             --cyber-gold: #E5A93B;
-            --cyber-gold-glow: rgba(229, 169, 59, 0.2);
+            --cyber-gold-glow: rgba(229, 169, 59, 0.25);
             --text-pure: #FFFFFF;
             --text-dim: #6E6E73;
-            --panel-border: rgba(229, 169, 59, 0.08);
+            --panel-border: rgba(229, 169, 59, 0.15);
             --font-ar: 'Cairo', sans-serif;
             --font-en: 'Orbitron', sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        
         body {
-            background-color: var(--bg-void); color: var(--text-pure); height: 100vh;
-            display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
-            background-image: linear-gradient(to right, rgba(229, 169, 59, 0.01) 1px, transparent 1px), linear-gradient(to bottom, rgba(229, 169, 59, 0.01) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-color: var(--bg-void); 
+            color: var(--text-pure); 
+            height: 100vh;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden; 
+            position: relative;
+            font-family: var(--font-ar);
+            background-image: 
+                linear-gradient(to right, rgba(229, 169, 59, 0.015) 1px, transparent 1px), 
+                linear-gradient(to bottom, rgba(229, 169, 59, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transition: font-family 0.3s ease;
         }
 
-        body::before {
-            content: ''; position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(229, 169, 59, 0.03) 0%, rgba(0,0,0,0) 70%);
-            top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; pointer-events: none;
+        /* كانفاس الجسيمات المتفاعلة */
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .cinematic-container { position: relative; z-index: 2; width: 100%; max-width: 720px; padding: 20px; text-align: center; }
-        .brand-header { margin-bottom: 32px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* شعاع توهج الماوس Dynamic Dynamic Glow */
+        .cursor-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(229, 169, 59, 0.06) 0%, rgba(0,0,0,0) 70%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .cinematic-container { position: relative; z-index: 2; width: 100%; max-width: 760px; padding: 20px; text-align: center; }
+        
         .main-logo {
-            font-family: var(--font-en); font-weight: 900; font-size: 3.8rem; letter-spacing: 20px; text-indent: 20px; text-transform: uppercase;
+            font-family: var(--font-en); font-weight: 900; font-size: 3.8rem; letter-spacing: 16px; text-indent: 16px; text-transform: uppercase;
             background: linear-gradient(180deg, #FFFFFF 30%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(229, 169, 59, 0.15));
+            filter: drop-shadow(0 0 15px rgba(229, 169, 59, 0.2)); margin-bottom: 32px; transition: transform 0.5s ease;
         }
 
-        .console-box { width: 100%; max-width: 540px; margin: 0 auto 32px auto; position: relative; }
+        .console-box { width: 100%; max-width: 560px; margin: 0 auto 28px auto; }
         .console-input {
-            width: 100%; background: rgba(255, 255, 255, 0.01); border: 1px solid var(--panel-border);
-            border-radius: 4px; padding: 18px 24px; color: var(--text-pure); font-family: var(--font-ar);
-            font-size: 1.1rem; text-align: center; outline: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            letter-spacing: 0.5px;
+            width: 100%; background: rgba(255, 255, 255, 0.015); border: 1px solid var(--panel-border);
+            border-radius: 6px; padding: 18px 24px; color: var(--text-pure); font-size: 1rem;
+            text-align: center; outline: none; transition: all 0.4s ease;
         }
-        .console-input:focus { border: 1px solid var(--cyber-gold); box-shadow: 0 0 25px var(--cyber-gold-glow); background: rgba(229, 169, 59, 0.015); }
+        .console-input:focus { border-color: var(--cyber-gold); box-shadow: 0 0 25px var(--cyber-gold-glow); background: rgba(229, 169, 59, 0.02); }
+        .console-input::placeholder { transition: opacity 0.3s ease; }
 
         .manifest-output {
-            max-height: 340px; overflow-y: auto; font-family: var(--font-ar); font-size: 1.05rem; text-align: justify;
-            line-height: 1.8; color: rgba(255, 255, 255, 0.85); padding: 0 24px; margin-bottom: 32px; display: none;
-            border-right: 2px solid var(--cyber-gold); background: rgba(255, 255, 255, 0.005);
+            max-height: 320px; overflow-y: auto; font-size: 1rem; text-align: justify; line-height: 1.8;
+            color: rgba(255, 255, 255, 0.88); padding: 16px 20px; margin-bottom: 28px; display: none;
+            border-inline-start: 3px solid var(--cyber-gold); background: rgba(255, 255, 255, 0.008); border-radius: 4px;
         }
         .manifest-output::-webkit-scrollbar { width: 4px; }
-        .manifest-output::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 2px; }
+        .manifest-output::-webkit-scrollbar-thumb { background: var(--cyber-gold); border-radius: 2px; }
 
-        .gate-highlight { color: var(--cyber-gold); font-weight: 700; font-family: var(--font-en); display: inline-block; margin-left: 6px; }
-        .terminal-anchor { font-family: var(--font-ar); font-weight: 300; font-size: 0.95rem; color: var(--text-dim); letter-spacing: 3px; transition: color 0.3s; }
+        .gate-highlight { color: var(--cyber-gold); font-weight: 700; font-family: var(--font-en); display: inline-block; margin: 0 4px; }
+        .terminal-anchor { font-size: 0.9rem; color: var(--text-dim); letter-spacing: 2px; transition: color 0.3s; }
 
         @media (max-width: 768px) {
-            .main-logo { font-size: 2.8rem; letter-spacing: 14px; text-indent: 14px; }
-            .console-input { font-size: 0.95rem; padding: 14px 18px; }
-            .manifest-output { font-size: 0.95rem; padding: 0 12px; }
+            .main-logo { font-size: 2.5rem; letter-spacing: 8px; text-indent: 8px; }
+            .console-input { font-size: 0.9rem; padding: 14px; }
         }
     </style>
 </head>
 <body>
+
+    <canvas id="particleCanvas"></canvas>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
     <div class="cinematic-container">
         <div class="brand-header" id="brandHeader">
@@ -81,78 +111,208 @@
         <div class="manifest-output" id="manifestOutput"></div>
 
         <div class="console-box">
-            <input type="text" class="console-input" id="magicConsole" placeholder="اطرح مخاوفك، شكوكك، أو بريدك الإلكتروني لفتح الأبعاد..." autocomplete="off">
+            <input type="text" class="console-input" id="magicConsole" autocomplete="off">
         </div>
         
-        <div class="terminal-anchor" id="statusAnchor">بانتظار أمر السيادة المكتوب_</div>
+        <div class="terminal-anchor" id="statusAnchor"></div>
     </div>
 
     <script>
+        let currentLang = 'ar';
+        let typingTimer = null;
+
+        const i18n = {
+            ar: {
+                placeholder: "اطرح مخاوفك، شكوكك، أو أوامرك لفتح الأبعاد...",
+                waiting: "بانتظار أمر السيادة المكتوب_",
+                connecting: "جاري الاتصال بـ بروتوكول الحقيقة وتدقيق الهوية العتادية...",
+                success: "تم بث نداء العبور الأول بنجاح وسحق الزيف_",
+                processed: "تمت معالجة الاستعلام السيادي بنجاح_",
+                database: {
+                    manifest: `
+                        <span class="gate-highlight">[ HAKMOS LAUNCH MANIFEST v133 ]</span><br><br>
+                        <b>إلى النخبة العابرة لزيف العالم الرقمي.. حان وقت الانبعاث السيادي وثورة العقول الحرة.</b><br><br>
+                        لقد استنزفت المنصات التقليدية وجودكم، وتداولت بياناتكم الحية، وحولت إنسانيتكم إلى سلعة في مزاد الإعلانات. اليوم، نعلن نهاية عصر التبعية، وبداية زمن السيادة المطلقة.<br><br>
+                        منصة <span class="gate-highlight">HAKMOS</span> تطلق بروتوكول الحياة الحقيقي السداسي الموحد:<br><br>
+                        <span class="gate-highlight">🩺 [H] Holistic:</span> العيادة السيادية - تتبع صحي وعلاج بيولوجي مع حماية كاملة للخصوصية.<br>
+                        <span class="gate-highlight">💍 [A] Aligned:</span> الحصن العائلي - عقد زواج فطري ونظيف بعيداً عن مساحيق الزيف.<br>
+                        <span class="gate-highlight">💼 [K] Kinetic:</span> محرك الارتقاء - توظيف أعمى يسحق المحسوبية ويقدس الموهبة.<br>
+                        <span class="gate-highlight">💰 [M] Monetary:</span> بيت المال - إدارة أصول ومزادات وسحب نقدي P2P مطهر ضريبياً.<br>
+                        <span class="gate-highlight">🎬 [O] Original:</span> الديوان الأسود - مطارحات فكرية وصحافة محمية من استنساخ الصوت.<br>
+                        <span class="gate-highlight">👑 [S] Sovereign:</span> الهدف الأسمى - استعادة التحكم الكامل بمصيرك الشامل.<br><br>
+                        <span class="gate-highlight">تنفس هدوء الحقيقة.. واستشعر اقتراب اللحظة التي تضع فيها وثيقة حضورك وجوازك بين يدي البروتوكول، لتنفتح أمامك التأشيرة الذهبية؛ معبراً أبدياً نحو أبعاد السيادة...</span>
+                    `,
+                    privacy: "أرح عقلك؛ دع السكينة تتسلل إلى وعيك وأنت تدرك أن بياناتك ومشاعرك مصانة بالكامل. المنصة لا تخزن هويتك لتبيعها؛ وحينما تدنو ساعة العبور الكامل، ستكون وثيقتك وجوازك مفتاحك الوحيد لمنحك التأشيرة الذهبية المشفّرة عتادياً بصيغة التشفير الصفري (ZK-Proofs).",
+                    money: "الأموال داخل بيت المال لا يتم احتجازها؛ كل التسييل يتم بنظام المقاصة بالند للند (P2P) ويصل ليدك كاش بنقاء ضريبي 100% عبر عقود Deel وبصفر رادارات بنكية."
+                }
+            },
+            en: {
+                placeholder: "Enter your fears, doubts, or commands to unlock dimensions...",
+                waiting: "Awaiting sovereign command execution_",
+                connecting: "Connecting to Truth Protocol & verifying hardware identity...",
+                success: "First passage manifest deployed. Illusions dismantled_",
+                processed: "Sovereign query processed successfully_",
+                database: {
+                    manifest: `
+                        <span class="gate-highlight">[ HAKMOS LAUNCH MANIFEST v133 ]</span><br><br>
+                        <b>To the transcendent elite escaping digital deception.. The era of sovereign revival is here.</b><br><br>
+                        Conventional platforms have exhausted our existence and commercialized our living consciousness. Today, we declare the end of digital servitude and the dawn of absolute personal sovereignty.<br><br>
+                        <span class="gate-highlight">HAKMOS</span> introduces the Unified Hexagon Protocol:<br><br>
+                        <span class="gate-highlight">🩺 [H] Holistic:</span> Sovereign Health - Zero-privacy exposure biometrics.<br>
+                        <span class="gate-highlight">💍 [A] Aligned:</span> Family Fortress - Pure, natural matrimonial pairing.<br>
+                        <span class="gate-highlight">💼 [K] Kinetic:</span> Merit Engine - Blind hiring prioritizing uncorrupted talent.<br>
+                        <span class="gate-highlight">💰 [M] Monetary:</span> Treasury - P2P liquidation & tax-cleared asset autonomy via Deel.<br>
+                        <span class="gate-highlight">🎬 [O] Original:</span> Black Assembly - Protected investigative journalism & voice integrity.<br>
+                        <span class="gate-highlight">👑 [S] Sovereign:</span> Ultimate Purpose - Absolute mastery over your financial and physical reality.<br><br>
+                        <span class="gate-highlight">Breathe in the calm of truth.. Feel the moment approach when presenting your proof of existence and passport unlocks the Golden Visa into timeless sovereignty...</span>
+                    `,
+                    privacy: "Rest assured; let deep peace wash over you knowing your consciousness is safe. When the time comes for full passage, your passport will serve as your self-sovereign key to claim the Golden Visa, locally encrypted via Zero-Knowledge Proofs (ZK-Proofs).",
+                    money: "Capital inside the Treasury is never seized or locked. All settlements execute via Peer-to-Peer (P2P) channels and compliant international advisory bridges."
+                }
+            }
+        };
+
         const magicConsole = document.getElementById('magicConsole');
         const manifestOutput = document.getElementById('manifestOutput');
         const brandHeader = document.getElementById('brandHeader');
         const statusAnchor = document.getElementById('statusAnchor');
+        const cursorGlow = document.getElementById('cursorGlow');
 
-        const database = {
-            manifest: `
-                <span class="gate-highlight">[ HAKMOS LANUCH MANIFEST v133 ]</span><br><br>
-                <b>إلى النخبة العابرة لزيف العالم الرقمي.. حان وقت الانبعاث السيادي وثورة العقول الحرة.</b><br><br>
-                لقد استهلكت المنصات التقليدية وجودنا، وباعت بياناتنا الحيوية، وحولت هوياتنا الإنسانية والبيولوجية الحية إلى مجرد أرقام مستباحة للبيع والتشتيت الإعلاني الهابط. اليوم، نعلن من قلب هذا الكونسول الأسود الصامت نهاية عصر التزوير وبداية السيادة الحتمية لـ كرامتك الحرة.<br><br>
-                منصة <span class="gate-highlight">HAKMOS</span> تفتح بوابات معقلها الغامض والفاخر لأول مرة. نحن لا نقدم تطبيقاً برمجياً للتصفح والعبث؛ نحن نطلق بروتوكول الحياة الحقيقي السداسي الموحد والمصان بأقوى الأقفال السيادية وجوازات السفر البشرية النقية الموثقة:<br><br>
-                <span class="gate-highlight">🩺 [H] Holistic (العيادة السيادية):</span> مسار فحصك الطبي وعلاجك العشبي البيولوجي النظيف وتتبع ملفك الدائم طوال العمر بصفر خصوصية مستباحة وبحظر كامل للطوارئ وتوجيهها للإسعاف حماية لرخصتنا الجنائية.<br><br>
-                <span class="gate-highlight">💍 [A] Aligned (الحصن العائلي):</span> زواج وعقد عفوي فطري نظيف، يجمع نقاء الجينات وصدق الملامح خالية تماماً من مساحيق الزيف وفلاتر التزوير البصرية، بمحاذاة الرعاية الأبوية والشرعية ومسار الخطوبة المرن بمؤازرة الـ AI وصفر حجز أموال.<br><br>
-                <span class="gate-highlight">💼 [K] Kinetic (محرك الارتقاء):</span> اقتناص مهني وتوظيف أعمى يسحق المحسوبية ويقدس الموهبة الفردية، مع ربط المنح والجامعات عابرة الحدود بـ ٢٤ لغة دون وسيط عمالي.<br><br>
-                <span class="gate-highlight">💰 [M] Monetary (بيت المال):</span> إدارة أموال الزكاة والمنح، والمزادات النخبوية العالمية للأصول والعقارات ببروتوكول التسجيل المشروط، وسحب ثروتك الطائلة كاش ليدك بنقاء ضريبي ومصرفي 100% عبر جسر Deel الاستشاري الدولي.<br><br>
-                <span class="gate-highlight">🎬 [O] Original (الديوان الأسود):</span> مطارحات فكرية، وبثوث مدفوعة ومكافآت لتعدين انتباه المتابعين، وصحافة استقصائية عمياء محمية من استنساخ البصمة الصوتية بدرع التمويج السمعي الصارم.<br><br>
-                <span class="gate-highlight">👑 [S] Sovereign (الهدف الأسمى):</span> استعادة التحكم الكامل والمطلق في مصيرك المالي والصحي والاجتماعي فوق قارات الأرض.<br><br>
-                المنصة صامتة، جافة، فاخرة، ولا تقبل العبث أو الحسابات الوهمية. لن يدخل هذا العالم الفسيح إلا من بايع الحقيقة، وثبتت جدارته الفكرية، وفعّل تأشيرته الذهبية بجواز سفره الرسمي لمرة واحدة طوال العمر ليفك قفل عوالم الأمان النفعي والارتقاء الخالد.<br><br>
-                <span class="gate-highlight">قم بمسح جواز سفرك الآن داخل التطبيق لكسر ستار الغموض والعبور الفوري للسيادة...</span>
-            `,
-            privacy: "أرح عقلك ونفسك تماماً؛ لعلك تشعر الآن بموجة عميقة من الراحة والأمان، وأنت تدرك أن بياناتك وجيناتها وجواز سفرك مشفرة عتادياً بالكامل بصيغة التشفير الصفرى (ZK-Proofs) محلياً داخل جهازك البنكي الفردي. المنصة لا تخزن هويتك لتبيعها؛ بل تحميك من تتبع الدول ومكابح البنوك المركزية بالكامل وتجعل وعيك معزولاً ومصاناً. اكتب 'نداء' لقراءة البيان التأسيسي الحركي كاملاً.",
-            money: "الأموال والرسوم وعمولات التوظيف والمزادات داخل بيت المال لا يتم احتجازها ولا مصادرتها كلياً؛ كل التسييل المالي الحركي يتم خارج التطبيق بنظام المقاصة بالند للند (P2P) ويصل ليدك كاش ونقداً بالعملة المحلية بصيغة راتب استشاري دولي مطهر ضريبياً 100% عبر عقود وسيط الرواتب الممتثل Deel وبصفر رادارات بنكية مشبوهة. اكتب 'نداء' لفتح مصفوفة الكسب السيادي."
-        };
+        /* تتبع الماوس للتوهج */
+        window.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        /* نظام الجسيمات */
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedY = -(Math.random() * 0.3 + 0.1);
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.y += this.speedY;
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(229, 169, 59, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* إدارة اللغات والتفاعل */
+        function applyLanguageSettings() {
+            const langData = i18n[currentLang];
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.body.style.fontFamily = currentLang === 'ar' ? 'var(--font-ar)' : 'var(--font-en)';
+            
+            magicConsole.placeholder = langData.placeholder;
+            if(!statusAnchor.innerText.includes('جاري الاتصال') && !statusAnchor.innerText.includes('Connecting')) {
+                statusAnchor.innerText = langData.waiting;
+            }
+        }
+
+        magicConsole.addEventListener('input', function() {
+            const val = this.value.trim();
+            if (val.length === 0) {
+                if(currentLang !== 'ar') {
+                    currentLang = 'ar';
+                    applyLanguageSettings();
+                }
+                return; 
+            }
+
+            const isArabic = /[\u0600-\u06FF]/.test(val);
+            const newLang = isArabic ? 'ar' : 'en';
+
+            if (newLang !== currentLang) {
+                currentLang = newLang;
+                applyLanguageSettings();
+            }
+        });
 
         magicConsole.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 const query = magicConsole.value.trim().toLowerCase();
                 if (!query) return;
 
-                statusAnchor.innerText = "جاري الاتصال بـ بروتوكول الحقيقة وتدقيق الهوية العتادية...";
+                const langData = i18n[currentLang];
+                statusAnchor.innerText = langData.connecting;
                 statusAnchor.style.color = "var(--cyber-gold)";
+                
+                const processedLang = currentLang; 
                 magicConsole.value = '';
 
                 setTimeout(() => {
                     brandHeader.style.transform = "scale(0.9) translateY(-10px)";
                     manifestOutput.style.display = "block";
 
-                    if (query.includes('خوف') || query.includes('أمان') || query.includes('بيانات') || query.includes('خصوصية') || query.includes('privacy')) {
-                        typeWriter(database.privacy);
-                    } else if (query.includes('مال') || query.includes('ربح') || query.includes('فلوس') || query.includes('سحب') || query.includes('money')) {
-                        typeWriter(database.money);
+                    if (query.match(/(خوف|أمان|بيانات|خصوصية|privacy|security|data)/)) {
+                        typeWriter(i18n[processedLang].database.privacy, processedLang);
+                    } else if (query.match(/(مال|ربح|فلوس|سحب|money|cash|withdraw)/)) {
+                        typeWriter(i18n[processedLang].database.money, processedLang);
                     } else {
-                        manifestOutput.innerHTML = database.manifest;
-                        statusAnchor.innerText = "تم بث نداء العبور الأول بنجاح وسحق الزيف_";
+                        manifestOutput.innerHTML = i18n[processedLang].database.manifest;
+                        statusAnchor.innerText = i18n[processedLang].success;
                         statusAnchor.style.color = "#fff";
                     }
-                }, 800);
+                }, 600);
             }
         });
 
-        function typeWriter(text) {
+        function typeWriter(text, targetLang) {
+            if (typingTimer) clearTimeout(typingTimer);
             manifestOutput.innerHTML = '';
             let i = 0;
+
             function type() {
                 if (i < text.length) {
                     manifestOutput.innerHTML += text.charAt(i);
                     i++;
-                    setTimeout(type, 20);
+                    typingTimer = setTimeout(type, 15);
                 } else {
-                    statusAnchor.innerText = "تمت معالجة الاستعلام السيادي بنجاح_";
+                    statusAnchor.innerText = i18n[targetLang].processed;
                     statusAnchor.style.color = "#fff";
                 }
             }
             type();
         }
+
+        applyLanguageSettings();
     </script>
 </body>
 </html>
